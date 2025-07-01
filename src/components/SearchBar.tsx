@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -52,7 +51,7 @@ const SearchBar = ({
   return (
     <div className="w-full">
       {/* Search Input */}
-      <div className="relative mb-4">
+      <div className="relative mb-4 flex flex-col gap-0">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
         <Input
           type="text"
@@ -60,11 +59,11 @@ const SearchBar = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="pl-12 pr-20 py-3 text-base rounded-xl border-2 focus:border-blue-500"
+          className="pl-12 pr-20 py-6 text-base rounded-xl border-2 focus:border-blue-500"
         />
         <Button 
           onClick={handleSearch}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-lg"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-lg ml-2 py-3"
         >
           검색
         </Button>
@@ -74,46 +73,40 @@ const SearchBar = ({
       {showQuickFilters && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">빠른 필터</span>
-            {activeFilters.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearFilters}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <X className="h-4 w-4 mr-1" />
-                필터 초기화
-              </Button>
-            )}
+            <span></span>
           </div>
           
           <div className="flex flex-wrap gap-2">
             {quickFilters.map((filter) => {
               const isActive = activeFilters.includes(filter);
+              // 카테고리별 이모티콘 매핑
+              const filterIcons: Record<string, string> = {
+                "취업지원": "💼",
+                "주거지원": "🏠",
+                "창업지원": "🚀",
+                "교육지원": "📚",
+                "생활지원": "🛒",
+                "문화/여가": "🎨",
+              };
               return (
-                <Badge
-                  key={filter}
-                  variant={isActive ? "default" : "outline"}
-                  className={`cursor-pointer transition-colors ${
-                    isActive 
-                      ? "bg-blue-600 hover:bg-blue-700" 
-                      : "hover:bg-gray-100"
-                  }`}
-                  onClick={() => toggleFilter(filter)}
-                >
-                  {filter}
-                </Badge>
+                <div key={filter}>
+                  <Badge
+                    variant={isActive ? "default" : "outline"}
+                    className={`cursor-pointer transition-all flex items-center gap-2 shadow-md px-3 py-2 text-base font-semibold rounded-xl border-2 ${
+                      isActive 
+                        ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700" 
+                        : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300"
+                    }`}
+                    onClick={() => toggleFilter(filter)}
+                    style={{ boxShadow: isActive ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
+                  >
+                    <span className="text-lg">{filterIcons[filter]}</span>
+                    <span>{filter}</span>
+                  </Badge>
+                </div>
               );
             })}
           </div>
-
-          {/* Active Filters Summary */}
-          {activeFilters.length > 0 && (
-            <div className="text-sm text-gray-600">
-              <span className="font-medium">{activeFilters.length}개</span> 필터 적용됨: {activeFilters.join(", ")}
-            </div>
-          )}
         </div>
       )}
     </div>
