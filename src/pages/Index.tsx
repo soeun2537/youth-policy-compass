@@ -1,14 +1,14 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Heart, Bell, User, TrendingUp, MapPin, Clock, Star } from "lucide-react";
+import { Heart, Bell, User, TrendingUp, MapPin, Clock } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import SearchBar from "@/components/SearchBar";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filteredPolicies, setFilteredPolicies] = useState<any[]>([]);
   const isMobile = useIsMobile();
 
@@ -346,33 +346,40 @@ const Index = () => {
     }
   ];
 
-  // 검색 함수
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      setFilteredPolicies([]);
-      return;
+  // 검색 및 필터링 함수
+  const applyFilters = (query: string, filters: string[]) => {
+    let filtered = allPolicies;
+
+    // 검색어 필터링
+    if (query.trim()) {
+      const searchText = query.toLowerCase();
+      filtered = filtered.filter(policy => {
+        const titleMatch = policy.title.toLowerCase().includes(searchText);
+        const summaryMatch = policy.summary.toLowerCase().includes(searchText);
+        const tagsMatch = policy.tags.some(tag => tag.toLowerCase().includes(searchText));
+        const institutionMatch = policy.institution.toLowerCase().includes(searchText);
+        const categoryMatch = policy.category.toLowerCase().includes(searchText);
+
+        return titleMatch || summaryMatch || tagsMatch || institutionMatch || categoryMatch;
+      });
     }
 
-    const filtered = allPolicies.filter(policy => {
-      const searchText = searchQuery.toLowerCase();
-      
-      // 제목, 요약, 태그, 기관명에서 검색
-      const titleMatch = policy.title.toLowerCase().includes(searchText);
-      const summaryMatch = policy.summary.toLowerCase().includes(searchText);
-      const tagsMatch = policy.tags.some(tag => tag.toLowerCase().includes(searchText));
-      const institutionMatch = policy.institution.toLowerCase().includes(searchText);
-      const categoryMatch = policy.category.toLowerCase().includes(searchText);
-
-      return titleMatch || summaryMatch || tagsMatch || institutionMatch || categoryMatch;
-    });
+    // 카테고리 필터링
+    if (filters.length > 0) {
+      filtered = filtered.filter(policy => filters.includes(policy.category));
+    }
 
     setFilteredPolicies(filtered);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    applyFilters(query, activeFilters);
+  };
+
+  const handleFilterChange = (filters: string[]) => {
+    setActiveFilters(filters);
+    applyFilters(searchQuery, filters);
   };
 
   // 추천 정책 (기본 3개)
@@ -430,25 +437,14 @@ const Index = () => {
             복잡한 정책 정보를 한 곳에서, 맞춤형 추천으로 더 간편하게
           </p>
           
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="관심있는 정책을 검색해보세요 (예: 청년 주택, 취업지원)"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="pl-12 pr-20 py-3 text-base rounded-xl border-2 focus:border-blue-500 text-gray-900"
-              />
-              <Button 
-                onClick={handleSearch}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-lg"
-              >
-                검색
-              </Button>
-            </div>
+          {/* Search Bar with Filters */}
+          <div className="max-w-4xl mx-auto">
+            <SearchBar
+              onSearch={handleSearch}
+              onFilterChange={handleFilterChange}
+              placeholder="관심있는 정책을 검색해보세요 (예: 청년 주택, 취업지원)"
+              showQuickFilters={true}
+            />
           </div>
         </div>
       </section>
@@ -561,16 +557,16 @@ const Index = () => {
             ))}
           </div>
 
-          {filteredPolicies.length === 0 && searchQuery.trim() && (
+          {filteredPolicies.length === 0 && (searchQuery.trim() || activeFilters.length > 0) && (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg">검색 결과가 없습니다.</p>
-              <p className="text-gray-400 text-sm mt-2">다른 검색어로 시도해보세요.</p>
+              <p className="text-gray-400 text-sm mt-2">다른 검색어나 필터를 시도해보세요.</p>
             </div>
           )}
         </section>
 
-        {/* Quick Access - 검색 결과가 없을 때만 표시 */}
-        {filteredPolicies.length === 0 && (
+        {/* Quick Access - 검색/필터 결과가 없을 때만 표시 */}
+        {filteredPolicies.length === 0 && !searchQuery.trim() && activeFilters.length === 0 && (
           <section className="mb-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">빠른 접근</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
