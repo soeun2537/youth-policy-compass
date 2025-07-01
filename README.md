@@ -1,73 +1,113 @@
-# Welcome to your Lovable project
+# 청년정책 나침반 (Youth Policy Compass)
 
-## Project info
+청년정책 나침반은 복잡하고 방대한 **청년 지원 정책 정보를 쉽고 편리하게 찾을 수 있도록 돕는 서비스**입니다. 청년들에게는 맞춤형 정책 정보를 제공하여 정보 탐색의 어려움을 해소하고, 정부/지자체에게는 효과적인 정책 홍보와 데이터 기반의 피드백을 통해 정책 수립에 기여하는 것을 목표로 합니다.
 
-**URL**: https://lovable.dev/projects/f615e306-2d9e-4ed3-830b-d695502c6026
+---
 
-## How can I edit this code?
+## 🚀 배포 URL
 
-There are several ways of editing your application.
+서비스는 다음 URL에서 직접 확인하실 수 있습니다:
 
-**Use Lovable**
+[https://youth-policy-compass.lovable.app](https://youth-policy-compass.lovable.app)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f615e306-2d9e-4ed3-830b-d695502c6026) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 👥 사용자 정의
 
-**Use your preferred IDE**
+저희 서비스는 두 가지 주요 사용자 그룹을 대상으로 합니다.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+| **사용자** | **정의** |
+| :-------- | :------- |
+| **청년** | 자신에게 필요한 청년 지원 정보를 찾기 어려워하는 개인 |
+| **정부/지자체** | 청년 지원 정책을 효율적으로 홍보하고 개선하려는 공공 단체 |
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🎯 사용자 니즈
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+각 사용자 그룹의 구체적인 니즈는 다음과 같습니다.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+| **사용자 유형** | **주요 니즈** |
+| :------------- | :----------- |
+| **학생** | 학자금, 생활비 지원, 문화생활 등 나에게 맞는 청년 지원 정책 정보, 관심 분야 정책 알림, 현재 상황(나이, 거주지, 소득, 재직 여부, 학력 등)을 반영한 맞춤 정책 추천, 실제 정책 이용자들의 후기 및 팁 공유. |
+| **취업 준비생** | 취업 장려금, 직업 훈련, 인턴십 등 실질적인 취업 지원 정보, 취업 역량 강화를 위한 교육 정보, 관심 분야 채용 및 지원 사업 알림. |
+| **직장인** | 청년 소득세 감면, 주택자금 대출, 내일채움공제, 결혼/출산 지원 등 직장 생활과 연관된 정책 정보, 개인 재정 및 주거 안정을 위한 정책 알림. |
+| **창업가** | 창업 자금, 사업화 지원, 멘토링, 컨설팅 등 창업 초기 및 성장 단계에 필요한 청년 지원 정책, 저렴하거나 지원되는 사무 공간 정보, 관련 제도 및 사업 설명회 알림. |
+| **정부/지자체** | 정책 홍보 채널 다각화 및 효율 증대, 청년층의 정책별 관심도 및 이용 현황 모니터링, 청년들의 정책 제안 및 피드백 수렴. |
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🎭 페르소나
 
-**Edit a file directly in GitHub**
+사용자 니즈를 바탕으로 구체적인 페르소나를 설정하여 서비스 기획에 반영했습니다.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 1. 학생: 미소미 (23세)
 
-**Use GitHub Codespaces**
+* **역할:** 대학교 4학년 학생
+* **목표:** 졸업 전 학자금 대출 상환 계획을 세우고, 사회 진출에 도움이 될 만한 청년 지원 정책(어학, 자격증 교육비 지원)을 미리 알아보고 싶어 합니다.
+* **니즈:** 현재 상황(재학 여부, 소득 수준)에 맞는 청년 지원 정책 정보, 관련 정책 공고 알림, 비슷한 또래 청년들의 정책 활용 후기.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 2. 취업 준비생: 좋은산 (25세)
 
-## What technologies are used for this project?
+* **역할:** 대기업 취업을 준비하는 취업 준비생
+* **목표:** 취업에 실질적으로 도움이 되는 교육 프로그램이나 지원금을 받아 취업 준비 비용 부담을 줄이고, 빠르게 취업에 성공하고 싶어 합니다.
+* **니즈:** 취업 역량 강화 교육 정보, 취업 장려금 또는 수당 지원 정책, 모의 면접/컨설팅 프로그램 정보, 신규 채용 연계형 사업 알림.
 
-This project is built with:
+### 3. 직장인: 양수양 (28세)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* **역할:** 입사 3년 차 사회 초년생
+* **목표:** 결혼을 앞두고 있어 주거 안정과 미래 자산 형성에 도움이 되는 정책(신혼부부 전세자금 대출, 청약 관련 혜택)을 찾아보고 싶어 합니다.
+* **니즈:** 주택 관련 대출/청약 정보, 자산 형성 지원(청년도약계좌, 내일채움공제) 정책, 결혼/출산 관련 지원 정책, 신청 기간 및 필요 서류 알림.
 
-## How can I deploy this project?
+### 4. 창업가: 부기부 (30세)
 
-Simply open [Lovable](https://lovable.dev/projects/f615e306-2d9e-4ed3-830b-d695502c6026) and click on Share -> Publish.
+* **역할:** IT 기반 스타트업을 운영 중인 초기 창업가
+* **목표:** 사업 운영에 필요한 자금을 확보하고, 전문가 멘토링을 통해 사업을 확장할 수 있는 정부 지원 프로그램을 찾고 싶어 합니다.
+* **니즈:** 창업 초기 자금 지원(정책자금 대출, 투자 유치), 사업 컨설팅 및 멘토링 프로그램, 저렴한 입주 공간 정보, 관련 박람회 및 네트워킹 행사 알림.
 
-## Can I connect a custom domain to my Lovable project?
+### 5. 정부/지자체: 우가우가 (50세)
 
-Yes, you can!
+* **역할:** 중앙/지방 정부 청년 정책 홍보 담당
+* **목표:** 수립된 청년 정책을 효과적으로 홍보하여 정책 수혜율을 높이고, 청년층의 실제 니즈를 파악해 차기 정책 기획에 반영하고 싶어 합니다.
+* **니즈:** 홍보 효율성 분석을 위한 정책별 조회수/신청률 데이터, 청년들이 관심 있어 하는 정책 분야 분석, 정책에 대한 청년들의 직접적인 피드백(설문, 댓글) 수집.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📝 사용자 시나리오 (User Story)
+
+각 페르소나가 서비스를 어떻게 활용하여 목표를 달성하는지 보여주는 대표적인 시나리오입니다.
+
+### **시나리오 1: 학생 '미소미'의 자격증 지원금 찾기**
+
+미소미는 곧 졸업을 앞둔 대학교 4학년 학생입니다. 취업 준비를 위해 토익 시험을 보려고 하는데, 시험 응시료와 학원비가 부담스럽습니다. 혹시 **청년들을 위한 교육비 지원 정책**이 있을지 궁금해져서 청년정책 나침반 서비스에 접속합니다.
+
+1.  **회원가입/로그인:** 미소미는 간단한 정보(나이, 거주지, 학교 재학 여부, 소득 수준)를 입력해 프로필을 설정합니다.
+2.  **맞춤 정책 추천:** 프로필 정보를 바탕으로, 서비스는 '재학생을 위한 교육비 지원', '문화생활비 지원' 등 미소미에게 적합한 정책들을 자동으로 추천해 줍니다.
+3.  **정책 검색:** 미소미는 검색창에 **'토익', '자격증'** 과 같은 키워드를 입력해 관련 정책을 찾아봅니다. '어학 및 자격증 응시료 지원'이라는 정책을 발견하고 클릭합니다.
+4.  **정보 확인 및 '찜하기':** 정책의 상세 페이지에서 **지원 대상, 신청 기간, 제출 서류** 등을 꼼꼼히 확인합니다. 신청 기간이 얼마 남지 않았다는 것을 확인하고, 잊지 않도록 **'찜하기'** 버튼을 누릅니다.
+5.  **알림 확인:** 찜한 정책의 신청 마감일이 다가오자, 서비스에서 **'미소미님, 찜한 정책의 신청 마감일이 3일 남았습니다!'** 라는 푸시 알림을 보냅니다.
+6.  **커뮤니티 활용:** 미소미는 정책 신청 절차가 복잡해 보여서 커뮤니티 게시판을 찾아봅니다. 다른 사용자들이 올린 '실제 신청 후기'와 '꿀팁'을 확인하고, 궁금한 점은 **'Q&A'** 게시판에 질문하여 답변을 얻습니다.
+7.  **정책 신청:** 알림을 받고 신청 절차에 따라 무사히 정책을 신청합니다.
+
+### **시나리오 2: 직장인 '양수양'의 주택자금 대출 정보 찾기**
+
+결혼을 앞둔 직장인 양수양은 신혼집 마련이 가장 큰 고민입니다. **신혼부부를 위한 전세자금 대출** 정책이 있다는 소식을 듣고 자세한 내용을 알고 싶어 청년정책 나침반 서비스에 접속합니다.
+
+1.  **회원가입/로그인:** 양수양은 직장인 페르소나에 맞춰 자신의 소득, 재직 기간, 거주 지역 등 상세 프로필을 설정합니다.
+2.  **자가진단:** '주거' 카테고리에서 **'나에게 맞는 주택 지원 자가진단'** 기능을 이용합니다. 소득, 무주택 기간, 결혼 예정 여부 등의 정보를 입력하자, 서비스가 '신혼부부 전세자금 대출'과 '청년 주택 드림 청약통장' 등 조건을 만족하는 정책들을 보여줍니다.
+3.  **상세 정보 탐색:** 양수양은 가장 필요한 '신혼부부 전세자금 대출'을 클릭해 **대출 한도, 금리, 신청 조건, 필요 서류** 등을 상세히 확인합니다.
+4.  **관련 정책 탐색:** 대출 정책과 함께 '청년도약계좌'나 '내일채움공제' 등 자산 형성에 도움이 되는 다른 정책들도 추천받고, 관심 목록에 추가해 둡니다.
+5.  **신청 절차 가이드 활용:** 복잡해 보이는 대출 절차를 위해, **'신청 절차 가이드'** 를 통해 대출 신청 시 필요한 서류 목록과 발급 방법, 은행 방문 절차 등을 확인하고 준비합니다.
+6.  **알림 설정:** '청년도약계좌'의 다음 모집 기간이 되면 알림을 받도록 설정해 둡니다.
+
+### **시나리오 3: 정책 담당자 '우가우가'의 홍보 효율 분석**
+
+우가우가 님은 새로 시작한 '청년 자립 지원 패키지' 정책의 홍보를 맡았습니다. 20대 청년들에게 이 정책이 얼마나 효과적으로 전달되고 있는지 파악하고 싶습니다.
+
+1.  **관리자 페이지 접속:** 우가우가 님은 서비스 관리자 페이지에 접속하여 '정책 홍보 대시보드'를 확인합니다.
+2.  **모니터링:** 대시보드에서 '청년 자립 지원 패키지' 정책의 **조회수, '찜하기' 수, 클릭률, 공유 횟수** 등을 실시간으로 확인합니다.
+3.  **데이터 분석:** 특정 연령대(20대 초반)와 지역(수도권)에서 조회수가 높다는 데이터를 확인하고, 해당 지역의 대학교 커뮤니티와 SNS 채널을 중심으로 홍보를 강화하는 전략을 세웁니다.
+4.  **피드백 확인:** '정책 피드백' 메뉴에서 '내용이 복잡하다', '신청 조건이 너무 까다롭다'와 같은 청년들의 댓글과 설문조사 결과를 확인합니다.
+5.  **정책 개선 아이디어 얻기:** 이러한 피드백을 바탕으로 정책 홍보 문구를 수정하고, 향후 정책 개선을 위한 건의사항을 담당 부서에 전달합니다.
+
+---
