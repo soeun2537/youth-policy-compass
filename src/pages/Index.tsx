@@ -20,7 +20,10 @@ const Index = () => {
   const { likedPolicyIds, handleLike } = useFavorites();
 
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [profile, setProfile] = useState({ name: "", email: "", bio: "" });
+  const quickFilters = [
+    "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"
+  ];
+  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[] });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   useEffect(() => {
@@ -37,7 +40,15 @@ const Index = () => {
 
   useEffect(() => {
     const saved = localStorage.getItem("userProfile");
-    if (saved) setProfile(JSON.parse(saved));
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setProfile({
+        name: parsed.name || "",
+        email: parsed.email || "",
+        bio: parsed.bio || "",
+        interest: Array.isArray(parsed.interest) ? parsed.interest : []
+      });
+    }
   }, []);
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -422,6 +433,31 @@ const Index = () => {
                     className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="이메일을 입력하세요"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">관심 분야</label>
+                  <div className="flex flex-wrap gap-2">
+                    {quickFilters.map((cat) => (
+                      <label key={cat} className={`flex items-center gap-1 px-3 py-2 rounded-xl border-2 cursor-pointer text-base font-semibold transition ${profile.interest.includes(cat) ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}>
+                        <input
+                          type="checkbox"
+                          name="interest"
+                          value={cat}
+                          checked={profile.interest.includes(cat)}
+                          onChange={e => {
+                            setProfile(prev => ({
+                              ...prev,
+                              interest: e.target.checked
+                                ? [...prev.interest, cat]
+                                : prev.interest.filter((v: string) => v !== cat)
+                            }));
+                          }}
+                          className="accent-blue-600 mr-1"
+                        />
+                        {cat}
+                      </label>
+                    ))}
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">자기소개</label>
