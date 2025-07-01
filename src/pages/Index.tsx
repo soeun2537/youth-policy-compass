@@ -5,15 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, Heart, Bell, User, TrendingUp, MapPin, Clock, Star } from "lucide-react";
-import { NavLink } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import SearchBar from "@/components/SearchBar";
-import PolicyCard from "@/components/PolicyCard";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPolicies, setFilteredPolicies] = useState<any[]>([]);
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const isMobile = useIsMobile();
 
   // 확장된 목업 데이터
@@ -153,14 +149,14 @@ const Index = () => {
   ];
 
   // 검색 함수
-  const handleSearch = (query: string) => {
-    if (!query.trim()) {
+  const handleSearch = () => {
+    if (!searchQuery.trim()) {
       setFilteredPolicies([]);
       return;
     }
 
     const filtered = allPolicies.filter(policy => {
-      const searchText = query.toLowerCase();
+      const searchText = searchQuery.toLowerCase();
       
       // 제목, 요약, 태그, 기관명에서 검색
       const titleMatch = policy.title.toLowerCase().includes(searchText);
@@ -175,27 +171,10 @@ const Index = () => {
     setFilteredPolicies(filtered);
   };
 
-  // 필터 변경 함수
-  const handleFilterChange = (filters: string[]) => {
-    setActiveFilters(filters);
-    
-    if (filters.length === 0) {
-      // 필터가 없으면 검색 결과만 보여줌
-      if (searchQuery.trim()) {
-        handleSearch(searchQuery);
-      } else {
-        setFilteredPolicies([]);
-      }
-      return;
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
-
-    // 현재 정책 목록에서 필터링
-    const currentPolicies = searchQuery.trim() ? filteredPolicies : allPolicies;
-    const filtered = currentPolicies.filter(policy => 
-      filters.includes(policy.category)
-    );
-    
-    setFilteredPolicies(filtered);
   };
 
   // 추천 정책 (기본 3개)
@@ -204,14 +183,17 @@ const Index = () => {
   // 표시할 정책 목록 결정
   const displayPolicies = filteredPolicies.length > 0 ? filteredPolicies : recommendedPolicies;
 
-  const quickCategories = [
-    { name: "취업지원", icon: "💼", count: 127 },
-    { name: "주거지원", icon: "🏠", count: 84 },
-    { name: "창업지원", icon: "🚀", count: 56 },
-    { name: "교육지원", icon: "📚", count: 93 },
-    { name: "생활지원", icon: "💡", count: 71 },
-    { name: "문화/여가", icon: "🎭", count: 42 }
-  ];
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case '취업지원': return 'bg-blue-100 text-blue-800';
+      case '주거지원': return 'bg-green-100 text-green-800';
+      case '창업지원': return 'bg-purple-100 text-purple-800';
+      case '교육지원': return 'bg-orange-100 text-orange-800';
+      case '생활지원': return 'bg-gray-100 text-gray-800';
+      case '문화/여가': return 'bg-pink-100 text-pink-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
@@ -252,11 +234,23 @@ const Index = () => {
           
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto">
-            <SearchBar 
-              onSearch={handleSearch}
-              onFilterChange={handleFilterChange}
-              placeholder="관심있는 정책을 검색해보세요 (예: 청년 주택, 취업지원)"
-            />
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Input
+                type="text"
+                placeholder="관심있는 정책을 검색해보세요 (예: 청년 주택, 취업지원)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="pl-12 pr-20 py-3 text-base rounded-xl border-2 focus:border-blue-500 text-gray-900"
+              />
+              <Button 
+                onClick={handleSearch}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-lg"
+              >
+                검색
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -302,12 +296,70 @@ const Index = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {displayPolicies.map((policy) => (
-              <PolicyCard 
-                key={policy.id} 
-                policy={policy}
-                onLike={(id) => console.log('Liked policy:', id)}
-                onView={(id) => console.log('View policy:', id)}
-              />
+              <Card key={policy.id} className="hover:shadow-lg transition-all duration-300 group cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge className={`text-xs ${getCategoryColor(policy.category)}`}>
+                          {policy.category}
+                        </Badge>
+                        {policy.isNew && (
+                          <Badge variant="destructive" className="text-xs">NEW</Badge>
+                        )}
+                      </div>
+                      <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
+                        {policy.title}
+                      </CardTitle>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className={`shrink-0 ${policy.liked ? 'text-red-500' : 'text-gray-400'}`}
+                    >
+                      <Heart className={`h-4 w-4 ${policy.liked ? 'fill-current' : ''}`} />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 text-sm mb-4">
+                    {policy.summary}
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center text-sm text-gray-500">
+                      <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                      <span className="truncate">{policy.institution}</span>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Clock className="h-4 w-4 mr-2 shrink-0" />
+                      {policy.deadline === '상시모집' ? (
+                        <span className="text-green-600 font-medium">상시모집</span>
+                      ) : (
+                        <span>마감: {policy.deadline}</span>
+                      )}
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-1">
+                      {policy.tags.slice(0, 3).map((tag) => (
+                        <Badge key={tag} variant="outline" className="text-xs">
+                          #{tag}
+                        </Badge>
+                      ))}
+                      {policy.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{policy.tags.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                    
+                    <Button className="w-full group-hover:bg-blue-600 transition-colors">
+                      자세히 보기
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
 
