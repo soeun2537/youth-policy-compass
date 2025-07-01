@@ -1,350 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Bell, User, TrendingUp, MapPin, Clock } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
+import { useNavigate } from "react-router-dom";
+import { useFavorites } from "../context/FavoritesContext";
+import { allPolicies } from "../lib/allPolicies";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filteredPolicies, setFilteredPolicies] = useState<any[]>([]);
+  const [selectedPolicy, setSelectedPolicy] = useState<any | null>(null);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
-  // 확장된 목업 데이터
-  const allPolicies = [
-    {
-      id: 1,
-      title: "청년 디지털 일자리 사업",
-      category: "취업지원",
-      institution: "과학기술정보통신부",
-      deadline: "2025-01-31",
-      tags: ["IT", "교육지원", "취업"],
-      summary: "청년층 대상 디지털 분야 직업훈련 및 취업 연계 프로그램",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 2,
-      title: "청년 주택드림 청약통장",
-      category: "주거지원",
-      institution: "국토교통부",
-      deadline: "상시모집",
-      tags: ["주택", "청약", "저축"],
-      summary: "청년층 대상 주택 마련을 위한 우대금리 청약저축",
-      isNew: false,
-      liked: true
-    },
-    {
-      id: 3,
-      title: "K-스타트업 그랜드 챌린지",
-      category: "창업지원",
-      institution: "중소벤처기업부",
-      deadline: "2025-02-15",
-      tags: ["창업", "투자", "멘토링"],
-      summary: "혁신 아이디어를 가진 청년 창업가 대상 사업화 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 4,
-      title: "청년 취업 성공 패키지",
-      category: "취업지원",
-      institution: "고용노동부",
-      deadline: "2025-03-30",
-      tags: ["취업", "구직활동", "상담"],
-      summary: "개인별 취업 역량에 따른 단계별 취업지원 서비스",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 5,
-      title: "청년 월세 한시 특별지원",
-      category: "주거지원",
-      institution: "국토교통부",
-      deadline: "2025-01-15",
-      tags: ["월세", "주거", "지원금"],
-      summary: "청년 월세 부담 완화를 위한 월세 지원금 제공",
-      isNew: true,
-      liked: true
-    },
-    {
-      id: 6,
-      title: "청년 내일채움공제",
-      category: "취업지원",
-      institution: "고용노동부",
-      deadline: "상시모집",
-      tags: ["정규직", "장기근속", "적립"],
-      summary: "중소기업 정규직 취업 청년의 장기근속과 목돈 마련 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 7,
-      title: "청년 창업사관학교",
-      category: "창업지원",
-      institution: "중소벤처기업부",
-      deadline: "2025-02-28",
-      tags: ["창업교육", "인큐베이팅", "네트워킹"],
-      summary: "체계적인 창업교육과 멘토링을 통한 성공 창업 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 8,
-      title: "K-학자금 든든학자금",
-      category: "교육지원",
-      institution: "한국장학재단",
-      deadline: "2025-02-20",
-      tags: ["학자금", "대출", "저금리"],
-      summary: "대학생 및 대학원생 대상 저금리 학자금 대출 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 9,
-      title: "청년 문화예술 활동 지원",
-      category: "문화/여가",
-      institution: "문화체육관광부",
-      deadline: "2025-01-20",
-      tags: ["문화", "예술", "활동비"],
-      summary: "청년 문화예술인의 창작활동 및 역량강화 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 10,
-      title: "청년 생활안정자금 대출",
-      category: "생활지원",
-      institution: "서울시",
-      deadline: "상시모집",
-      tags: ["생활자금", "대출", "저금리"],
-      summary: "청년의 생활안정을 위한 저금리 생활자금 대출",
-      isNew: false,
-      liked: true
-    },
-    {
-      id: 11,
-      title: "청년 농업인 정착지원",
-      category: "창업지원",
-      institution: "농림축산식품부",
-      deadline: "2025-03-15",
-      tags: ["농업", "정착", "창업"],
-      summary: "청년 농업인의 안정적 농업 정착을 위한 종합 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 12,
-      title: "청년 직업훈련 생계비 지원",
-      category: "교육지원",
-      institution: "고용노동부",
-      deadline: "2025-04-30",
-      tags: ["직업훈련", "생계비", "교육"],
-      summary: "직업훈련 참여 청년의 생계비 부담 완화 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 13,
-      title: "청년 해외진출 지원사업",
-      category: "취업지원",
-      institution: "외교부",
-      deadline: "2025-01-25",
-      tags: ["해외취업", "글로벌", "연수"],
-      summary: "청년의 해외진출 역량강화 및 글로벌 일자리 창출 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 14,
-      title: "청년도약계좌",
-      category: "생활지원",
-      institution: "기획재정부",
-      deadline: "상시모집",
-      tags: ["저축", "자산형성", "우대금리"],
-      summary: "청년층의 중장기 자산형성을 위한 우대금리 적용 저축상품",
-      isNew: false,
-      liked: true
-    },
-    {
-      id: 15,
-      title: "청년 전용 전세자금대출",
-      category: "주거지원",
-      institution: "주택금융공사",
-      deadline: "상시모집",
-      tags: ["전세", "대출", "주택"],
-      summary: "청년층의 주거안정을 위한 전용 전세자금 대출상품",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 16,
-      title: "지역주도형 청년일자리 사업",
-      category: "취업지원",
-      institution: "행정안전부",
-      deadline: "2025-02-10",
-      tags: ["지역일자리", "청년", "취업"],
-      summary: "지역 특성을 반영한 청년 일자리 창출 및 정착 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 17,
-      title: "청년 소상공인 창업지원",
-      category: "창업지원",
-      institution: "소상공인시장진흥공단",
-      deadline: "2025-03-05",
-      tags: ["소상공인", "창업자금", "컨설팅"],
-      summary: "청년 소상공인의 성공적인 창업을 위한 자금 및 컨설팅 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 18,
-      title: "청년 문화누리카드",
-      category: "문화/여가",
-      institution: "문화체육관광부",
-      deadline: "상시모집",
-      tags: ["문화", "여가", "바우처"],
-      summary: "청년층의 문화향유 기회 확대를 위한 문화바우처 지원",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 19,
-      title: "청년 건강검진 지원",
-      category: "생활지원",
-      institution: "보건복지부",
-      deadline: "2025-01-30",
-      tags: ["건강검진", "의료", "예방"],
-      summary: "청년층의 건강관리 및 질병예방을 위한 건강검진비 지원",
-      isNew: true,
-      liked: true
-    },
-    {
-      id: 20,
-      title: "청년 스마트팜 창업지원",
-      category: "창업지원",
-      institution: "농림축산식품부",
-      deadline: "2025-02-25",
-      tags: ["스마트팜", "농업기술", "창업"],
-      summary: "스마트팜 기술을 활용한 청년 농업 창업 지원 프로그램",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 21,
-      title: "청년 공공임대주택 특별공급",
-      category: "주거지원",
-      institution: "LH공사",
-      deadline: "2025-01-18",
-      tags: ["공공임대", "주택", "특별공급"],
-      summary: "청년층 대상 공공임대주택 우선 공급 및 입주 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 22,
-      title: "청년 평생학습계좌제",
-      category: "교육지원",
-      institution: "교육부",
-      deadline: "상시모집",
-      tags: ["평생학습", "교육비", "학습이력"],
-      summary: "청년의 지속적인 학습을 위한 교육비 지원 및 학습이력 관리",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 23,
-      title: "청년 사회적기업 인턴지원",
-      category: "취업지원",
-      institution: "고용노동부",
-      deadline: "2025-02-05",
-      tags: ["사회적기업", "인턴", "경험"],
-      summary: "사회적기업에서의 청년 인턴십 경험 및 정규직 전환 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 24,
-      title: "청년 디지털 역량강화 교육",
-      category: "교육지원",
-      institution: "과학기술정보통신부",
-      deadline: "2025-03-20",
-      tags: ["디지털", "교육", "역량강화"],
-      summary: "4차 산업혁명 시대 청년의 디지털 역량 향상을 위한 교육 지원",
-      isNew: false,
-      liked: true
-    },
-    {
-      id: 25,
-      title: "청년 환경보호 활동 지원",
-      category: "문화/여가",
-      institution: "환경부",
-      deadline: "2025-01-22",
-      tags: ["환경", "봉사", "활동비"],
-      summary: "청년의 환경보호 활동 참여 및 관련 역량 개발 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 26,
-      title: "청년 마케팅 스킬업 프로그램",
-      category: "교육지원",
-      institution: "중소벤처기업부",
-      deadline: "2025-02-12",
-      tags: ["마케팅", "스킬업", "실무"],
-      summary: "청년의 마케팅 실무 역량 강화를 위한 전문교육 프로그램",
-      isNew: false,
-      liked: false
-    },
-    {
-      id: 27,
-      title: "청년 국제교류 프로그램",
-      category: "문화/여가",
-      institution: "외교부",
-      deadline: "2025-01-28",
-      tags: ["국제교류", "문화체험", "해외"],
-      summary: "청년의 글로벌 감각 향상을 위한 국제교류 및 문화체험 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 28,
-      title: "청년 자격증 취득 지원",
-      category: "교육지원",
-      institution: "고용노동부",
-      deadline: "상시모집",
-      tags: ["자격증", "취득비", "교육"],
-      summary: "청년의 취업 경쟁력 향상을 위한 자격증 취득비 지원",
-      isNew: false,
-      liked: true
-    },
-    {
-      id: 29,
-      title: "청년 1인가구 생활용품 지원",
-      category: "생활지원",
-      institution: "여성가족부",
-      deadline: "2025-02-08",
-      tags: ["1인가구", "생활용품", "독립"],
-      summary: "독립을 시작하는 청년 1인가구의 생활안정을 위한 생활용품 지원",
-      isNew: true,
-      liked: false
-    },
-    {
-      id: 30,
-      title: "청년 심리상담 지원서비스",
-      category: "생활지원",
-      institution: "보건복지부",
-      deadline: "상시모집",
-      tags: ["심리상담", "정신건강", "지원"],
-      summary: "청년의 정신건강 증진을 위한 전문 심리상담 서비스 제공",
-      isNew: false,
-      liked: false
+  const { likedPolicyIds, handleLike } = useFavorites();
+
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profile, setProfile] = useState({ name: "", email: "", bio: "" });
+
+  const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
+  useEffect(() => {
+    const saved = localStorage.getItem("notiPolicyIds");
+    if (saved) setNotiPolicyIds(JSON.parse(saved));
+  }, []);
+  const handleNoti = (id: string) => {
+    if (!notiPolicyIds.includes(id)) {
+      const updated = [...notiPolicyIds, id];
+      setNotiPolicyIds(updated);
+      localStorage.setItem("notiPolicyIds", JSON.stringify(updated));
     }
-  ];
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("userProfile");
+    if (saved) setProfile(JSON.parse(saved));
+  }, []);
+
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleProfileSave = () => {
+    localStorage.setItem("userProfile", JSON.stringify(profile));
+    setShowProfileModal(false);
+  };
 
   // 검색 및 필터링 함수
   const applyFilters = (query: string, filters: string[]) => {
@@ -410,15 +114,19 @@ const Index = () => {
               <h1 className="text-2xl font-bold text-blue-600">청년정책 찾기</h1>
             </div>
             <nav className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" onClick={() => navigate("/notifications")}>
                 <Bell className="h-4 w-4 mr-2" />
                 알림
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/favorites")}
+              >
                 <Heart className="h-4 w-4 mr-2" />
                 찜목록
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => setShowProfileModal(true)}>
                 <User className="h-4 w-4 mr-2" />
                 프로필 설정
               </Button>
@@ -428,12 +136,24 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">
+      <section className="relative py-16 overflow-hidden">
+        <div className="absolute inset-0 w-full h-full z-0"
+          style={{
+            background: "linear-gradient(110deg, #2563eb 0%, #4f46e5 35%, #7c3aed 65%, #a78bfa 100%)",
+            opacity: 0.97,
+            filter: "blur(0px)",
+          }}
+        />
+        <div className="absolute inset-0 w-full h-full z-0"
+          style={{
+            background: "radial-gradient(circle at 70% 30%, rgba(255,255,255,0.10) 0%, transparent 70%)"
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-4 drop-shadow-lg text-white">
             나에게 맞는 청년정책을<br />쉽고 빠르게 찾아보세요
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl mb-8 drop-shadow text-white">
             복잡한 정책 정보를 한 곳에서, 맞춤형 추천으로 더 간편하게
           </p>
           
@@ -482,13 +202,17 @@ const Index = () => {
                 "맞춤 추천 정책"
               }
             </h3>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => {
+              setFilteredPolicies(allPolicies);
+              setSearchQuery("");
+              setActiveFilters([]);
+            }}>
               <TrendingUp className="h-4 w-4 mr-2" />
               전체보기
             </Button>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayPolicies.map((policy) => (
               <Card key={policy.id} className="hover:shadow-lg transition-all duration-300 group cursor-pointer">
                 <CardHeader>
@@ -509,9 +233,13 @@ const Index = () => {
                     <Button 
                       variant="ghost" 
                       size="sm"
-                      className={`shrink-0 ${policy.liked ? 'text-red-500' : 'text-gray-400'}`}
+                      className={`shrink-0 ${likedPolicyIds.includes(policy.id) ? 'text-red-500' : 'text-gray-400'}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLike(policy.id);
+                      }}
                     >
-                      <Heart className={`h-4 w-4 ${policy.liked ? 'fill-current' : ''}`} />
+                      <Heart className={`h-4 w-4 ${likedPolicyIds.includes(policy.id) ? 'fill-current' : ''}`} />
                     </Button>
                   </div>
                 </CardHeader>
@@ -548,7 +276,7 @@ const Index = () => {
                       )}
                     </div>
                     
-                    <Button className="w-full group-hover:bg-blue-600 transition-colors">
+                    <Button className="w-full group-hover:bg-blue-600 transition-colors" onClick={() => setSelectedPolicy(policy)}>
                       자세히 보기
                     </Button>
                   </div>
@@ -603,6 +331,118 @@ const Index = () => {
               </Card>
             </div>
           </section>
+        )}
+
+        {/* 정책 상세 모달 */}
+        {selectedPolicy && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-8 relative animate-fade-in">
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
+                onClick={() => setSelectedPolicy(null)}
+                aria-label="닫기"
+              >
+                ×
+              </button>
+              <div className="mb-4 flex items-center gap-2">
+                <Badge className={`text-xs ${getCategoryColor(selectedPolicy.category)}`}>{selectedPolicy.category}</Badge>
+                {selectedPolicy.isNew && <Badge variant="destructive" className="text-xs">NEW</Badge>}
+              </div>
+              <h2 className="text-2xl font-bold mb-2">{selectedPolicy.title}</h2>
+              <div className="text-gray-600 mb-4">{selectedPolicy.summary}</div>
+              <div className="mb-2 flex items-center text-sm text-gray-500">
+                <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                <span>{selectedPolicy.institution}</span>
+              </div>
+              <div className="mb-2 flex items-center text-sm text-gray-500">
+                <Clock className="h-4 w-4 mr-2 shrink-0" />
+                {selectedPolicy.deadline === '상시모집' ? (
+                  <span className="text-green-600 font-medium">상시모집</span>
+                ) : (
+                  <span>마감: {selectedPolicy.deadline}</span>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {selectedPolicy.tags.map((tag: string) => (
+                  <Badge key={tag} variant="outline" className="text-xs">#{tag}</Badge>
+                ))}
+              </div>
+              <div className="flex gap-2 mt-6">
+                <a
+                  href={selectedPolicy.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg py-2 text-center font-semibold transition"
+                >
+                  바로가기
+                </a>
+                <button
+                  className={`flex-1 rounded-lg py-2 font-semibold transition ${notiPolicyIds.includes(selectedPolicy.id) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                  onClick={() => handleNoti(selectedPolicy.id)}
+                  disabled={notiPolicyIds.includes(selectedPolicy.id)}
+                >
+                  {notiPolicyIds.includes(selectedPolicy.id) ? '알림 신청됨' : '알림 받기'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 프로필 설정 모달 */}
+        {showProfileModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-8 relative animate-fade-in">
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
+                onClick={() => setShowProfileModal(false)}
+                aria-label="닫기"
+              >
+                ×
+              </button>
+              <h2 className="text-xl font-bold mb-4">프로필 설정</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">이름</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={profile.name}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="이름을 입력하세요"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">이메일</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={profile.email}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="이메일을 입력하세요"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">자기소개</label>
+                  <textarea
+                    name="bio"
+                    value={profile.bio}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="간단한 자기소개를 입력하세요"
+                    rows={3}
+                  />
+                </div>
+                <button
+                  className="w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
+                  onClick={handleProfileSave}
+                >
+                  저장하기
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </main>
 
