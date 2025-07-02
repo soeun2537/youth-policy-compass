@@ -91,6 +91,12 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
               <span>마감: {policy.deadline}</span>
             )}
           </div>
+          {policy.estimatedTime && (
+            <div className="flex items-center text-sm text-blue-600 font-medium">
+              <Timer className="h-4 w-4 mr-2 shrink-0" />
+              <span>신청 난이도: {policy.estimatedTime}</span>
+            </div>
+          )}
           <div className="flex flex-wrap gap-1">
             {policy.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="outline" className="text-xs">

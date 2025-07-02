@@ -8,7 +8,8 @@ export const allPolicies = [
     tags: ["IT", "교육지원", "취업"],
     summary: "청년층 대상 디지털 분야 직업훈련 및 취업 연계 프로그램",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "2시간"
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const allPolicies = [
     tags: ["주택", "청약", "저축"],
     summary: "청년층 대상 주택 마련을 위한 우대금리 청약저축",
     isNew: false,
-    liked: true
+    liked: true,
+    estimatedTime: "30분"
   },
   {
     id: 3,
@@ -30,7 +32,8 @@ export const allPolicies = [
     tags: ["창업", "투자", "멘토링"],
     summary: "혁신 아이디어를 가진 청년 창업가 대상 사업화 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1일"
   },
   {
     id: 4,
@@ -41,7 +44,8 @@ export const allPolicies = [
     tags: ["취업", "구직활동", "상담"],
     summary: "개인별 취업 역량에 따른 단계별 취업지원 서비스",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "3시간"
   },
   {
     id: 5,
@@ -52,7 +56,8 @@ export const allPolicies = [
     tags: ["월세", "주거", "지원금"],
     summary: "청년 월세 부담 완화를 위한 월세 지원금 제공",
     isNew: true,
-    liked: true
+    liked: true,
+    estimatedTime: "15분"
   },
   {
     id: 6,
@@ -63,7 +68,8 @@ export const allPolicies = [
     tags: ["정규직", "장기근속", "적립"],
     summary: "중소기업 정규직 취업 청년의 장기근속과 목돈 마련 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 7,
@@ -74,7 +80,8 @@ export const allPolicies = [
     tags: ["창업교육", "인큐베이팅", "네트워킹"],
     summary: "체계적인 창업교육과 멘토링을 통한 성공 창업 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "2일"
   },
   {
     id: 8,
@@ -85,7 +92,8 @@ export const allPolicies = [
     tags: ["학자금", "대출", "저금리"],
     summary: "대학생 및 대학원생 대상 저금리 학자금 대출 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "20분"
   },
   {
     id: 9,
@@ -96,7 +104,8 @@ export const allPolicies = [
     tags: ["문화", "예술", "활동비"],
     summary: "청년 문화예술인의 창작활동 및 역량강화 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 10,
@@ -107,7 +116,8 @@ export const allPolicies = [
     tags: ["생활자금", "대출", "저금리"],
     summary: "청년의 생활안정을 위한 저금리 생활자금 대출",
     isNew: false,
-    liked: true
+    liked: true,
+    estimatedTime: "10분"
   },
   {
     id: 11,
@@ -118,7 +128,8 @@ export const allPolicies = [
     tags: ["농업", "정착", "창업"],
     summary: "청년 농업인의 안정적 농업 정착을 위한 종합 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "2일"
   },
   {
     id: 12,
@@ -129,7 +140,8 @@ export const allPolicies = [
     tags: ["직업훈련", "생계비", "교육"],
     summary: "직업훈련 참여 청년의 생계비 부담 완화 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "3시간"
   },
   {
     id: 13,
@@ -140,7 +152,8 @@ export const allPolicies = [
     tags: ["해외취업", "글로벌", "연수"],
     summary: "청년의 해외진출 역량강화 및 글로벌 일자리 창출 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1일"
   },
   {
     id: 14,
@@ -151,7 +164,8 @@ export const allPolicies = [
     tags: ["저축", "자산형성", "우대금리"],
     summary: "청년층의 중장기 자산형성을 위한 우대금리 적용 저축상품",
     isNew: false,
-    liked: true
+    liked: true,
+    estimatedTime: "1시간"
   },
   {
     id: 15,
@@ -162,7 +176,8 @@ export const allPolicies = [
     tags: ["전세", "대출", "주택"],
     summary: "청년층의 주거안정을 위한 전용 전세자금 대출상품",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "10분"
   },
   {
     id: 16,
@@ -173,7 +188,8 @@ export const allPolicies = [
     tags: ["지역일자리", "청년", "취업"],
     summary: "지역 특성을 반영한 청년 일자리 창출 및 정착 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "2일"
   },
   {
     id: 17,
@@ -184,7 +200,8 @@ export const allPolicies = [
     tags: ["소상공인", "창업자금", "컨설팅"],
     summary: "청년 소상공인의 성공적인 창업을 위한 자금 및 컨설팅 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "3시간"
   },
   {
     id: 18,
@@ -195,7 +212,8 @@ export const allPolicies = [
     tags: ["문화", "여가", "바우처"],
     summary: "청년층의 문화향유 기회 확대를 위한 문화바우처 지원",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 19,
@@ -206,7 +224,8 @@ export const allPolicies = [
     tags: ["건강검진", "의료", "예방"],
     summary: "청년층의 건강관리 및 질병예방을 위한 건강검진비 지원",
     isNew: true,
-    liked: true
+    liked: true,
+    estimatedTime: "1시간"
   },
   {
     id: 20,
@@ -217,7 +236,8 @@ export const allPolicies = [
     tags: ["스마트팜", "농업기술", "창업"],
     summary: "스마트팜 기술을 활용한 청년 농업 창업 지원 프로그램",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "2일"
   },
   {
     id: 21,
@@ -228,7 +248,8 @@ export const allPolicies = [
     tags: ["공공임대", "주택", "특별공급"],
     summary: "청년층 대상 공공임대주택 우선 공급 및 입주 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 22,
@@ -239,7 +260,8 @@ export const allPolicies = [
     tags: ["평생학습", "교육비", "학습이력"],
     summary: "청년의 지속적인 학습을 위한 교육비 지원 및 학습이력 관리",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 23,
@@ -250,7 +272,8 @@ export const allPolicies = [
     tags: ["사회적기업", "인턴", "경험"],
     summary: "사회적기업에서의 청년 인턴십 경험 및 정규직 전환 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 24,
@@ -261,7 +284,8 @@ export const allPolicies = [
     tags: ["디지털", "교육", "역량강화"],
     summary: "4차 산업혁명 시대 청년의 디지털 역량 향상을 위한 교육 지원",
     isNew: false,
-    liked: true
+    liked: true,
+    estimatedTime: "2일"
   },
   {
     id: 25,
@@ -272,7 +296,8 @@ export const allPolicies = [
     tags: ["환경", "봉사", "활동비"],
     summary: "청년의 환경보호 활동 참여 및 관련 역량 개발 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 26,
@@ -283,7 +308,8 @@ export const allPolicies = [
     tags: ["마케팅", "스킬업", "실무"],
     summary: "청년의 마케팅 실무 역량 강화를 위한 전문교육 프로그램",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "2일"
   },
   {
     id: 27,
@@ -294,7 +320,8 @@ export const allPolicies = [
     tags: ["국제교류", "문화체험", "해외"],
     summary: "청년의 글로벌 감각 향상을 위한 국제교류 및 문화체험 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1일"
   },
   {
     id: 28,
@@ -305,7 +332,8 @@ export const allPolicies = [
     tags: ["자격증", "취득비", "교육"],
     summary: "청년의 취업 경쟁력 향상을 위한 자격증 취득비 지원",
     isNew: false,
-    liked: true
+    liked: true,
+    estimatedTime: "1시간"
   },
   {
     id: 29,
@@ -316,7 +344,8 @@ export const allPolicies = [
     tags: ["1인가구", "생활용품", "독립"],
     summary: "독립을 시작하는 청년 1인가구의 생활안정을 위한 생활용품 지원",
     isNew: true,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   },
   {
     id: 30,
@@ -327,6 +356,7 @@ export const allPolicies = [
     tags: ["심리상담", "정신건강", "지원"],
     summary: "청년의 정신건강 증진을 위한 전문 심리상담 서비스 제공",
     isNew: false,
-    liked: false
+    liked: false,
+    estimatedTime: "1시간"
   }
 ]; 

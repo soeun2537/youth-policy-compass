@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, MapPin, Clock, ArrowLeft, Bell } from "lucide-react";
+import PolicyCard from "../components/PolicyCard";
 
 const getCategoryColor = (category: string) => {
   switch (category) {
@@ -18,9 +19,20 @@ const getCategoryColor = (category: string) => {
   }
 };
 
+function sortByDeadline(policies: any[]) {
+  return policies.slice().sort((a, b) => {
+    if (a.deadline === '상시모집' && b.deadline !== '상시모집') return 1;
+    if (b.deadline === '상시모집' && a.deadline !== '상시모집') return -1;
+    if (a.deadline === '상시모집' && b.deadline === '상시모집') return 0;
+    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+  });
+}
+
 const Notifications = () => {
   const [notiPolicyIds, setNotiPolicyIds] = useState<number[]>([]);
   const [notiPolicies, setNotiPolicies] = useState<any[]>([]);
+  const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
+  const [likedPolicyIds, setLikedPolicyIds] = useState<number[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +42,17 @@ const Notifications = () => {
       setNotiPolicyIds(ids);
       setNotiPolicies(allPolicies.filter(p => ids.includes(Number(p.id))));
     }
+    const savedTimes = localStorage.getItem("policyTimes");
+    if (savedTimes) setPolicyTimes(JSON.parse(savedTimes));
+    const savedLikes = localStorage.getItem("likedPolicyIds");
+    if (savedLikes) setLikedPolicyIds(JSON.parse(savedLikes));
   }, []);
+
+  const getPolicyWithTime = (policy: any) => ({
+    ...policy,
+    estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
+    liked: likedPolicyIds.includes(policy.id)
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
@@ -50,63 +72,13 @@ const Notifications = () => {
           <div className="text-center text-gray-500 py-24">알림 신청한 정책이 없습니다.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notiPolicies.map((policy) => (
-              <Card key={policy.id} className="hover:shadow-lg transition-all duration-300 group cursor-pointer">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className={`text-xs ${getCategoryColor(policy.category)}`}>{policy.category}</Badge>
-                        {policy.isNew && <Badge variant="destructive" className="text-xs">NEW</Badge>}
-                      </div>
-                      <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                        {policy.title}
-                      </CardTitle>
-                    </div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      className={`shrink-0 text-blue-500 cursor-default`}
-                      disabled
-                    >
-                      <Bell className="h-4 w-4 fill-current" />
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm mb-4">{policy.summary}</p>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <MapPin className="h-4 w-4 mr-2 shrink-0" />
-                      <span className="truncate">{policy.institution}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-500">
-                      <Clock className="h-4 w-4 mr-2 shrink-0" />
-                      {policy.deadline === '상시모집' ? (
-                        <span className="text-green-600 font-medium">상시모집</span>
-                      ) : (
-                        <span>마감: {policy.deadline}</span>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {policy.tags.slice(0, 3).map((tag: string) => (
-                        <Badge key={tag} variant="outline" className="text-xs">#{tag}</Badge>
-                      ))}
-                      {policy.tags.length > 3 && (
-                        <Badge variant="outline" className="text-xs">+{policy.tags.length - 3}</Badge>
-                      )}
-                    </div>
-                    <a
-                      href={policy.url || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full bg-blue-600 text-white rounded-lg py-2 font-semibold text-center hover:bg-blue-700 transition mt-2"
-                    >
-                      바로가기
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
+            {sortByDeadline(notiPolicies).map((policy) => (
+              <PolicyCard
+                key={policy.id}
+                policy={getPolicyWithTime(policy)}
+                onLike={() => {}}
+                onView={() => {}}
+              />
             ))}
           </div>
         )}
