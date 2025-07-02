@@ -137,19 +137,19 @@ const SearchBar = ({
               };
               return (
                 <div key={filter}>
-                  <Badge
-                    variant={isActive ? "default" : "outline"}
+                <Badge
+                  variant={isActive ? "default" : "outline"}
                     className={`cursor-pointer transition-all flex items-center gap-2 shadow-md px-4 py-2 text-base font-semibold rounded-xl border-2 ${
-                      isActive 
+                    isActive 
                         ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700" 
                         : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300"
-                    }`}
-                    onClick={() => toggleFilter(filter)}
+                  }`}
+                  onClick={() => toggleFilter(filter)}
                     style={{ boxShadow: isActive ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
-                  >
+                >
                     <span className="text-lg">{filterIcons[filter]}</span>
                     <span>{filter}</span>
-                  </Badge>
+                </Badge>
                 </div>
               );
             })}

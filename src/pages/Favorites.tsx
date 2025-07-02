@@ -47,7 +47,7 @@ const Favorites = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
+    <div className="min-h-screen" style={{ background: '#F8FBFF' }}>
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16 gap-2">

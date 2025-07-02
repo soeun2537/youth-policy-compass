@@ -160,15 +160,14 @@ const Diagnosis = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
+    <div className="min-h-screen" style={{ background: '#F8FBFF' }}>
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")}> 
-            <ArrowLeft className="h-5 w-5" /> 
-          </Button>
-          <div className="flex items-center gap-2">
-            <Bot className="h-6 w-6 text-blue-600" />
-            <h1 className="text-xl font-bold text-blue-600">AI 맞춤 정책 진단</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={() => navigate("/")}> <ArrowLeft className="h-5 w-5" /> </Button>
+              <h1 className="text-2xl font-bold text-blue-600">맞춤 정책 진단</h1>
+            </div>
           </div>
         </div>
       </header>

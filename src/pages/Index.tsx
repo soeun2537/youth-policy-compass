@@ -258,14 +258,22 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">청년정책포털</h1>
+              <h1 className="text-2xl font-bold" style={{ color: '#2463EB' }}>청년정책포털</h1>
             </div>
-            <nav className="flex space-x-8">
+            <nav className="flex space-x-8 items-center">
               <a href="/" className="text-gray-700 hover:text-blue-600">홈</a>
               <a href="/favorites" className="text-gray-700 hover:text-blue-600">찜한 정책</a>
-              <a href="/diagnosis" className="text-gray-700 hover:text-blue-600">맞춤 진단</a>
+              <a href="/notifications" className="text-gray-700 hover:text-blue-600">알림 신청한 정책</a>
               <a href="/dictionary" className="text-gray-700 hover:text-blue-600">용어 사전</a>
-              <a href="/faq" className="text-gray-700 hover:text-blue-600">FAQ</a>
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-4"
+                onClick={() => setShowProfileModal(true)}
+              >
+                <User className="h-4 w-4 mr-2" />
+                프로필 설정
+              </Button>
             </nav>
           </div>
         </div>
@@ -340,7 +348,7 @@ const Index = () => {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" style={{ background: '#F8FBFF' }}>
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Card className="text-center hover:shadow-lg transition-shadow">

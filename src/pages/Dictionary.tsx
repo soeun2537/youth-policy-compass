@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Search, Plus, Book } from "lucide-react";
+import { Search, Plus, Book, User, ArrowLeft } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface DictionaryTerm {
   id: number;
@@ -81,6 +81,7 @@ const Dictionary = () => {
   const [newCategory, setNewCategory] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const categories = ["전체", "금융지원", "창업지원", "취업지원", "주거지원", "생활지원", "교육지원"];
 
@@ -121,13 +122,37 @@ const Dictionary = () => {
     });
   };
 
+  // 메인 페이지와 동일한 카테고리 색상 함수
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case '취업지원': return 'bg-blue-100 text-blue-800';
+      case '주거지원': return 'bg-green-100 text-green-800';
+      case '창업지원': return 'bg-purple-100 text-purple-800';
+      case '교육지원': return 'bg-orange-100 text-orange-800';
+      case '생활지원': return 'bg-gray-100 text-gray-800';
+      case '문화/여가': return 'bg-pink-100 text-pink-800';
+      case '금융지원': return 'bg-blue-50 text-blue-700'; // 추가: 금융지원은 연파랑
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
+    <div className="min-h-screen" style={{ background: '#F8FBFF' }}>
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={() => navigate("/")}> <ArrowLeft className="h-5 w-5" /> </Button>
+              <h1 className="text-2xl font-bold text-blue-600">용어 사전</h1>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div className="max-w-6xl mx-auto p-4">
+        <div className="text-center mb-8 mt-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Book className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">정책 용어 사전</h1>
+            <h2 className="text-3xl font-bold text-gray-900">정책 용어 사전</h2>
           </div>
           <p className="text-lg text-gray-600">
             청년 정책과 관련된 어려운 용어들을 쉽게 찾아보세요
@@ -182,11 +207,19 @@ const Dictionary = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">카테고리</label>
-                  <Input
-                    placeholder="카테고리를 입력하세요"
+                  <select
+                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                  />
+                    onChange={e => setNewCategory(e.target.value)}
+                  >
+                    <option value="">카테고리 선택</option>
+                    <option value="창업지원">창업지원</option>
+                    <option value="취업지원">취업지원</option>
+                    <option value="주거지원">주거지원</option>
+                    <option value="생활지원">생활지원</option>
+                    <option value="교육지원">교육지원</option>
+                    <option value="문화/여가">문화/여가</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">정의</label>
@@ -211,7 +244,7 @@ const Dictionary = () => {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{term.term}</CardTitle>
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${getCategoryColor(term.category)}`}>
                     {term.category}
                   </span>
                 </div>
