@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -156,6 +157,9 @@ const Index = () => {
 
   const recommendedPolicies = allPolicies.slice(0, 3);
   const similarUsersPolicies = getSimilarUsersPolicies();
+
+  // Define displayPolicies based on search/filter state
+  const displayPolicies = filteredPolicies.length > 0 ? filteredPolicies : recommendedPolicies;
 
   const getPolicyWithTime = (policy: any) => ({
     ...policy,
