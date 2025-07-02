@@ -427,16 +427,6 @@ const Index = () => {
                   <Timer className="h-4 w-4 mr-2 shrink-0" />
                   <span>신청 난이도: {policyTimes[selectedPolicy.id] || policyTimes[String(selectedPolicy.id)] || selectedPolicy.estimatedTime || "미설정"}</span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setEditingTime(policyTimes[selectedPolicy.id] || "");
-                    setShowEditTimeModal(true);
-                  }}
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {selectedPolicy.tags.map((tag: string) => (
@@ -467,46 +457,6 @@ const Index = () => {
                     알림 받기
                   </button>
                 )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 예상 소요 시간 편집 모달 */}
-        {showEditTimeModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 relative animate-fade-in">
-              <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"
-                onClick={() => setShowEditTimeModal(false)}
-                aria-label="닫기"
-              >
-                ×
-              </button>
-              <h3 className="text-lg font-bold mb-4">예상 소요 시간 설정</h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={editingTime}
-                  onChange={(e) => setEditingTime(e.target.value)}
-                  placeholder="예: 10분, 1시간, 1일 등"
-                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => setShowEditTimeModal(false)}
-                  >
-                    취소
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={() => handleTimeEdit(editingTime)}
-                  >
-                    저장
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
