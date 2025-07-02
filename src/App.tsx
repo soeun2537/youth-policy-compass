@@ -8,6 +8,8 @@ import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/notifications";
 import Diagnosis from "./pages/diagnosis";
+import Reviews from "./pages/Reviews";
+import FAQ from "./pages/FAQ";
 import { useState, useEffect } from "react";
 import { FavoritesContext } from "./context/FavoritesContext";
 import { allPolicies } from "./lib/allPolicies";
@@ -43,6 +45,8 @@ const App = () => {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/diagnosis" element={<Diagnosis />} />
               <Route path="/notifications" element={<Notifications />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/faq" element={<FAQ />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

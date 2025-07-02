@@ -334,15 +334,15 @@ const Index = () => {
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="hover:shadow-md transition-shadow cursor-pointer group" onClick={() => navigate("/notifications")}>
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl mb-3">📊</div>
-                  <h4 className="font-semibold mb-2 group-hover:text-blue-600">신청 현황</h4>
-                  <p className="text-sm text-gray-600">내 신청 내역 확인</p>
+                  <h4 className="font-semibold mb-2 group-hover:text-blue-600">알림 신청 내역</h4>
+                  <p className="text-sm text-gray-600">내 알림 신청 현황 확인</p>
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="hover:shadow-md transition-shadow cursor-pointer group" onClick={() => navigate("/reviews")}>
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl mb-3">💬</div>
                   <h4 className="font-semibold mb-2 group-hover:text-blue-600">후기 게시판</h4>
@@ -350,7 +350,7 @@ const Index = () => {
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="hover:shadow-md transition-shadow cursor-pointer group" onClick={() => navigate("/faq")}>
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl mb-3">❓</div>
                   <h4 className="font-semibold mb-2 group-hover:text-blue-600">FAQ</h4>
