@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Bell, User, TrendingUp, MapPin, Clock, Bot, Timer, Edit } from "lucide-react";
+import { User, MapPin, Clock, Timer } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import { allPolicies } from "../lib/allPolicies";
+import { CATEGORIES, getCategoryColor } from "../lib/categoryColors.ts";
 import PolicyCard from "../components/PolicyCard";
 
 const Index = () => {
@@ -23,9 +24,6 @@ const Index = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showEditTimeModal, setShowEditTimeModal] = useState(false);
   const [editingTime, setEditingTime] = useState("");
-  const quickFilters = [
-    "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"
-  ];
   const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "" });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
@@ -183,18 +181,6 @@ const Index = () => {
     estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
     liked: likedPolicyIds.includes(policy.id)
   });
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case '취업지원': return 'bg-blue-100 text-blue-800';
-      case '주거지원': return 'bg-green-100 text-green-800';
-      case '창업지원': return 'bg-purple-100 text-purple-800';
-      case '교육지원': return 'bg-orange-100 text-orange-800';
-      case '생활지원': return 'bg-gray-100 text-gray-800';
-      case '문화/여가': return 'bg-pink-100 text-pink-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   // 정책별 찜/알림 신청 카운트 계산
   const likeCountMap = useMemo(() => {
@@ -616,7 +602,7 @@ const Index = () => {
                 <div>
                   <label className="block text-sm font-medium mb-1">관심 분야</label>
                   <div className="flex flex-wrap gap-2">
-                    {quickFilters.map((cat) => (
+                    {CATEGORIES.map((cat) => (
                       <label key={cat} className={`flex items-center gap-1 px-3 py-2 rounded-xl border-2 cursor-pointer text-base font-semibold transition ${profile.interest.includes(cat) ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}>
                         <input
                           type="checkbox"

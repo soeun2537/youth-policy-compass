@@ -1,23 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { allPolicies } from "../lib/allPolicies";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, MapPin, Clock, ArrowLeft, Bell } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import PolicyCard from "../components/PolicyCard";
-
-const getCategoryColor = (category: string) => {
-  switch (category) {
-    case '취업지원': return 'bg-blue-100 text-blue-800';
-    case '주거지원': return 'bg-green-100 text-green-800';
-    case '창업지원': return 'bg-purple-100 text-purple-800';
-    case '교육지원': return 'bg-orange-100 text-orange-800';
-    case '생활지원': return 'bg-gray-100 text-gray-800';
-    case '문화/여가': return 'bg-pink-100 text-pink-800';
-    default: return 'bg-gray-100 text-gray-800';
-  }
-};
+import { allPolicies } from "../lib/allPolicies";
 
 function sortByDeadline(policies: any[]) {
   return policies.slice().sort((a, b) => {

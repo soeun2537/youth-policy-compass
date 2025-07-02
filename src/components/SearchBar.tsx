@@ -1,9 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter, X } from "lucide-react";
 import { allPolicies } from "../lib/allPolicies";
+import { CATEGORY_ICONS } from "../lib/categoryColors";
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;
@@ -126,15 +127,6 @@ const SearchBar = ({
           <div className="flex flex-wrap gap-3 mt-2">
             {quickFilters.map((filter) => {
               const isActive = activeFilters.includes(filter);
-              // 카테고리별 이모티콘 매핑
-              const filterIcons: Record<string, string> = {
-                "취업지원": "💼",
-                "주거지원": "🏠",
-                "창업지원": "🚀",
-                "교육지원": "📚",
-                "생활지원": "🛒",
-                "문화/여가": "🎨",
-              };
               return (
                 <div key={filter}>
                 <Badge
@@ -147,7 +139,7 @@ const SearchBar = ({
                   onClick={() => toggleFilter(filter)}
                     style={{ boxShadow: isActive ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
                 >
-                    <span className="text-lg">{filterIcons[filter]}</span>
+                    <span className="text-lg">{CATEGORY_ICONS[filter]}</span>
                     <span>{filter}</span>
                 </Badge>
                 </div>

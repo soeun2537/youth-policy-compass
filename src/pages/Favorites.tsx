@@ -3,20 +3,8 @@ import { useFavorites } from "../context/FavoritesContext";
 import PolicyCard from "../components/PolicyCard";
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { MapPin, Clock, Timer, Edit } from "lucide-react";
-
-const getCategoryColor = (category: string) => {
-  switch (category) {
-    case '취업지원': return 'bg-blue-100 text-blue-800';
-    case '주거지원': return 'bg-green-100 text-green-800';
-    case '창업지원': return 'bg-purple-100 text-purple-800';
-    case '교육지원': return 'bg-orange-100 text-orange-800';
-    case '생활지원': return 'bg-gray-100 text-gray-800';
-    case '문화/여가': return 'bg-pink-100 text-pink-800';
-    default: return 'bg-gray-100 text-gray-800';
-  }
-};
+import { getCategoryColor } from "../lib/categoryColors.ts";
+import { MapPin, Clock, Timer } from "lucide-react";
 
 const Favorites = () => {
   const navigate = useNavigate();

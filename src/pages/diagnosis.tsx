@@ -1,23 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { allPolicies } from "../lib/allPolicies";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapPin, Clock, ArrowLeft, Send, Bot, User, X } from "lucide-react";
-
-const getCategoryColor = (category: string) => {
-  switch (category) {
-    case '취업지원': return 'bg-blue-100 text-blue-800';
-    case '주거지원': return 'bg-green-100 text-green-800';
-    case '창업지원': return 'bg-purple-100 text-purple-800';
-    case '교육지원': return 'bg-orange-100 text-orange-800';
-    case '생활지원': return 'bg-gray-100 text-gray-800';
-    case '문화/여가': return 'bg-pink-100 text-pink-800';
-    default: return 'bg-gray-100 text-gray-800';
-  }
-};
+import { getCategoryColor } from "../lib/categoryColors.ts";
+import { allPolicies } from "../lib/allPolicies";
 
 // AI 추천 시스템 (실제 AI API 연동 시 이 부분만 교체)
 function getAIRecommendation(userMessage: string, userProfile: any) {
