@@ -20,7 +20,7 @@ interface Policy {
 interface PolicyCardProps {
   policy: Policy;
   onLike?: (id: number) => void;
-  onView?: (id: number) => void;
+  onView?: (policy: Policy) => void;
 }
 
 const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
@@ -35,7 +35,10 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 group cursor-pointer h-full">
+    <Card 
+      className="hover:shadow-lg transition-all duration-300 group cursor-pointer h-full"
+      onClick={() => onView?.(policy)}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
@@ -107,7 +110,7 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
             className="w-full group-hover:bg-blue-600 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
-              onView?.(policy.id);
+              onView?.(policy);
             }}
           >
             <ExternalLink className="h-4 w-4 mr-2" />

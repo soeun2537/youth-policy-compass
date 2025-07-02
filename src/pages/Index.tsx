@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -163,7 +162,8 @@ const Index = () => {
 
   const getPolicyWithTime = (policy: any) => ({
     ...policy,
-    estimatedTime: policyTimes[policy.id] || undefined
+    estimatedTime: policyTimes[policy.id] || undefined,
+    liked: likedPolicyIds.includes(policy.id)
   });
 
   const getCategoryColor = (category: string) => {
