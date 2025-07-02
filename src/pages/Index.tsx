@@ -23,7 +23,7 @@ const Index = () => {
   const quickFilters = [
     "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"
   ];
-  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[] });
+  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "" });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   useEffect(() => {
@@ -46,14 +46,21 @@ const Index = () => {
         name: parsed.name || "",
         email: parsed.email || "",
         bio: parsed.bio || "",
-        interest: Array.isArray(parsed.interest) ? parsed.interest : []
+        interest: Array.isArray(parsed.interest) ? parsed.interest : [],
+        birth: parsed.birth || "",
+        region: parsed.region || "",
+        job: parsed.job || "",
+        income: parsed.income || ""
       });
     }
   }, []);
 
-  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setProfile((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleProfileSave = () => {
@@ -450,6 +457,57 @@ const Index = () => {
                     className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="이메일을 입력하세요"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">생년월일</label>
+                  <input
+                    type="date"
+                    name="birth"
+                    value={profile.birth}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="생년월일을 입력하세요"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">거주지</label>
+                  <input
+                    type="text"
+                    name="region"
+                    value={profile.region}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="예: 서울특별시"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">직업</label>
+                  <select
+                    name="job"
+                    value={profile.job}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">선택하세요</option>
+                    <option value="학생">학생</option>
+                    <option value="취업">취업</option>
+                    <option value="구직">구직</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">소득 수준</label>
+                  <select
+                    name="income"
+                    value={profile.income}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">선택하세요</option>
+                    <option value="low">저소득</option>
+                    <option value="middle">중간소득</option>
+                    <option value="high">고소득</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">관심 분야</label>
