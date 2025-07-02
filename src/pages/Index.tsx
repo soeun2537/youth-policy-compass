@@ -225,13 +225,18 @@ const Index = () => {
   // 정렬 적용
   const sortedDisplayPolicies = useMemo(() => {
     let arr = [...displayPolicies];
+    // 전체보기 아닐 때는 마감된 정책 제외
+    if (!showAll) {
+      const today = new Date(new Date().toISOString().slice(0,10));
+      arr = arr.filter(p => p.deadline === '상시모집' || new Date(p.deadline) >= today);
+    }
     if (sortType === 'like') {
       arr.sort((a, b) => (likeCountMap[b.id] || 0) - (likeCountMap[a.id] || 0));
     } else if (sortType === 'noti') {
       arr.sort((a, b) => (notiCountMap[b.id] || 0) - (notiCountMap[a.id] || 0));
     }
     return arr;
-  }, [displayPolicies, sortType, likeCountMap, notiCountMap]);
+  }, [displayPolicies, sortType, likeCountMap, notiCountMap, showAll]);
 
   const handleAllViewToggle = () => {
     if (showAll) {

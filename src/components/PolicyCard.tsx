@@ -36,6 +36,8 @@ const PolicyCard = ({ policy, onLike, onView, onNotiCancel }: PolicyCardProps) =
     }
   };
 
+  const isClosed = policy.deadline !== '상시모집' && new Date(policy.deadline) < new Date(new Date().toISOString().slice(0,10));
+
   return (
     <Card 
       className="hover:shadow-lg transition-all duration-300 group cursor-pointer h-full flex flex-col"
@@ -48,8 +50,11 @@ const PolicyCard = ({ policy, onLike, onView, onNotiCancel }: PolicyCardProps) =
               <Badge variant="outline" className={`text-xs ${getCategoryColor(policy.category)}`}>
                 {policy.category}
               </Badge>
-              {policy.isNew && (
+              {policy.isNew && !isClosed && (
                 <Badge variant="destructive" className="text-xs">NEW</Badge>
+              )}
+              {isClosed && (
+                <Badge variant="destructive" className="text-xs bg-red-600 text-white border-red-600">마감됨</Badge>
               )}
               {policy.estimatedTime && (
                 <Badge variant="outline" className="text-xs text-blue-600 flex items-center gap-1">
