@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,32 +25,34 @@ interface PolicyCardProps {
 const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case '취업지원': return 'default';
-      case '주거지원': return 'secondary';
-      case '창업지원': return 'destructive';
-      case '교육지원': return 'outline';
-      default: return 'outline';
+      case '취업지원': return 'bg-blue-100 text-blue-800';
+      case '주거지원': return 'bg-green-100 text-green-800';
+      case '창업지원': return 'bg-purple-100 text-purple-800';
+      case '교육지원': return 'bg-orange-100 text-orange-800';
+      case '생활지원': return 'bg-gray-100 text-gray-800';
+      case '문화/여가': return 'bg-pink-100 text-pink-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
     <Card 
-      className="hover:shadow-lg transition-all duration-300 group cursor-pointer h-full"
+      className="hover:shadow-lg transition-all duration-300 group cursor-pointer h-full flex flex-col"
       onClick={() => onView?.(policy)}
     >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant={getCategoryColor(policy.category)} className="text-xs">
+              <Badge variant="outline" className={`text-xs ${getCategoryColor(policy.category)}`}>
                 {policy.category}
               </Badge>
               {policy.isNew && (
                 <Badge variant="destructive" className="text-xs">NEW</Badge>
               )}
               {policy.estimatedTime && (
-                <Badge variant="outline" className="text-xs text-blue-600">
-                  <Timer className="h-3 w-3 mr-1" />
+                <Badge variant="outline" className="text-xs text-blue-600 flex items-center gap-1">
+                  <Timer className="h-3 w-3" />
                   {policy.estimatedTime}
                 </Badge>
               )}
@@ -73,17 +74,15 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col h-full">
+      <CardContent className="flex flex-col flex-1">
         <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
           {policy.summary}
         </p>
-        
         <div className="space-y-3 mt-auto">
           <div className="flex items-center text-sm text-gray-500">
             <MapPin className="h-4 w-4 mr-2 shrink-0" />
             <span className="truncate">{policy.institution}</span>
           </div>
-          
           <div className="flex items-center text-sm text-gray-500">
             <Clock className="h-4 w-4 mr-2 shrink-0" />
             {policy.deadline === '상시모집' ? (
@@ -92,7 +91,6 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
               <span>마감: {policy.deadline}</span>
             )}
           </div>
-          
           <div className="flex flex-wrap gap-1">
             {policy.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="outline" className="text-xs">
@@ -105,7 +103,6 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
               </Badge>
             )}
           </div>
-          
           <Button 
             className="w-full group-hover:bg-blue-600 transition-colors"
             onClick={(e) => {

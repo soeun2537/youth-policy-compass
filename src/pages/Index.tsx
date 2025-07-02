@@ -274,7 +274,7 @@ const Index = () => {
         {filteredPolicies.length === 0 && !searchQuery.trim() && activeFilters.length === 0 && (
           <section className="mb-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">나와 비슷한 청년들이 많이 신청한 정책</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {similarUsersPolicies.map((policy) => (
                 <PolicyCard
                   key={policy.id}
