@@ -425,7 +425,7 @@ const Index = () => {
               <div className="mb-4 flex items-center justify-between text-sm text-gray-500">
                 <div className="flex items-center">
                   <Timer className="h-4 w-4 mr-2 shrink-0" />
-                  <span>예상 소요 시간: {policyTimes[selectedPolicy.id] || "미설정"}</span>
+                  <span>신청 난이도: {policyTimes[selectedPolicy.id] || policyTimes[String(selectedPolicy.id)] || selectedPolicy.estimatedTime || "미설정"}</span>
                 </div>
                 <Button
                   variant="ghost"
