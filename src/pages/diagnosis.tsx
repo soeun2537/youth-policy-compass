@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { allPolicies } from "../lib/allPolicies";
@@ -164,7 +163,7 @@ const Diagnosis = () => {
               </CardHeader>
               <CardContent className="flex-1 flex flex-col">
                 {/* 메시지 영역 */}
-                <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-[500px]">
+                <div className="flex-1 overflow-y-auto space-y-4 mb-4">
                   {chatMessages.map((msg) => (
                     <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-[80%] rounded-lg p-3 ${
@@ -183,7 +182,6 @@ const Diagnosis = () => {
                           </div>
                         </div>
                         <div className="whitespace-pre-wrap text-sm">{msg.message}</div>
-                        
                         {/* 추천 정책 카드들 */}
                         {msg.policies && msg.policies.length > 0 && (
                           <div className="mt-4 space-y-3">
@@ -216,7 +214,6 @@ const Diagnosis = () => {
                       </div>
                     </div>
                   ))}
-                  
                   {isLoading && (
                     <div className="flex justify-start">
                       <div className="bg-gray-100 rounded-lg p-3 flex items-center gap-2">
@@ -230,7 +227,6 @@ const Diagnosis = () => {
                     </div>
                   )}
                 </div>
-
                 {/* 입력 영역 */}
                 <div className="flex gap-2">
                   <Input
