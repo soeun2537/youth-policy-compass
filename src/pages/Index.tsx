@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Bell, User, TrendingUp, MapPin, Clock } from "lucide-react";
+import { Heart, Bell, User, TrendingUp, MapPin, Clock, Bot } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
@@ -125,6 +125,10 @@ const Index = () => {
               <h1 className="text-2xl font-bold text-blue-600">청년정책 찾기</h1>
             </div>
             <nav className="flex items-center space-x-4">
+              <Button variant="ghost" size="sm" onClick={() => navigate("/diagnosis")}>
+                <Bot className="h-4 w-4 mr-2" />
+                AI 진단
+              </Button>
               <Button variant="ghost" size="sm" onClick={() => navigate("/notifications")}>
                 <Bell className="h-4 w-4 mr-2" />
                 알림
@@ -309,11 +313,11 @@ const Index = () => {
           <section className="mb-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">빠른 접근</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="hover:shadow-md transition-shadow cursor-pointer group" onClick={() => navigate("/diagnosis")}>
                 <CardContent className="p-6 text-center">
-                  <div className="text-3xl mb-3">🎯</div>
-                  <h4 className="font-semibold mb-2 group-hover:text-blue-600">맞춤 진단</h4>
-                  <p className="text-sm text-gray-600">나에게 맞는 정책 찾기</p>
+                  <div className="text-3xl mb-3">🤖</div>
+                  <h4 className="font-semibold mb-2 group-hover:text-blue-600">AI 맞춤 진단</h4>
+                  <p className="text-sm text-gray-600">AI와 대화하며 맞춤 정책 찾기</p>
                 </CardContent>
               </Card>
               
