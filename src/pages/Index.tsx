@@ -47,6 +47,12 @@ const Index = () => {
     }
   };
 
+  const handleNotiCancel = (id: string) => {
+    const updated = notiPolicyIds.filter(pid => pid !== id);
+    setNotiPolicyIds(updated);
+    localStorage.setItem("notiPolicyIds", JSON.stringify(updated));
+  };
+
   const handleTimeEdit = (time: string) => {
     if (selectedPolicy) {
       const updated = { ...policyTimes, [selectedPolicy.id]: time };
@@ -446,13 +452,21 @@ const Index = () => {
                 >
                   바로가기
                 </a>
-                <button
-                  className={`flex-1 rounded-lg py-2 font-semibold transition ${notiPolicyIds.includes(selectedPolicy.id) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
-                  onClick={() => handleNoti(selectedPolicy.id)}
-                  disabled={notiPolicyIds.includes(selectedPolicy.id)}
-                >
-                  {notiPolicyIds.includes(selectedPolicy.id) ? '알림 신청됨' : '알림 받기'}
-                </button>
+                {notiPolicyIds.includes(selectedPolicy.id) ? (
+                  <button
+                    className="flex-1 rounded-lg py-2 font-semibold transition bg-red-100 text-red-600 hover:bg-red-200"
+                    onClick={() => handleNotiCancel(selectedPolicy.id)}
+                  >
+                    알림 취소
+                  </button>
+                ) : (
+                  <button
+                    className="flex-1 rounded-lg py-2 font-semibold transition bg-blue-600 text-white hover:bg-blue-700"
+                    onClick={() => handleNoti(selectedPolicy.id)}
+                  >
+                    알림 받기
+                  </button>
+                )}
               </div>
             </div>
           </div>

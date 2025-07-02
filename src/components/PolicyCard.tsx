@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, MapPin, Clock, ExternalLink, Timer } from "lucide-react";
+import { Heart, MapPin, Clock, ExternalLink, Timer, BellOff } from "lucide-react";
 
 interface Policy {
   id: number;
@@ -20,9 +20,10 @@ interface PolicyCardProps {
   policy: Policy;
   onLike?: (id: number) => void;
   onView?: (policy: Policy) => void;
+  onNotiCancel?: (id: number) => void;
 }
 
-const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
+const PolicyCard = ({ policy, onLike, onView, onNotiCancel }: PolicyCardProps) => {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case '취업지원': return 'bg-blue-100 text-blue-800';
@@ -119,6 +120,19 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
             <ExternalLink className="h-4 w-4 mr-2" />
             자세히 보기
           </Button>
+          {onNotiCancel && (
+            <Button
+              variant="outline"
+              className="w-full mt-2 text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
+              onClick={(e) => {
+                e.stopPropagation();
+                onNotiCancel(policy.id);
+              }}
+            >
+              <BellOff className="h-4 w-4 mr-2" />
+              알림 취소
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

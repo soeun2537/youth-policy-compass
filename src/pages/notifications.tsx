@@ -54,6 +54,13 @@ const Notifications = () => {
     liked: likedPolicyIds.includes(policy.id)
   });
 
+  const handleNotiCancel = (id: number) => {
+    const updated = notiPolicyIds.filter(pid => pid !== id);
+    setNotiPolicyIds(updated);
+    setNotiPolicies(allPolicies.filter(p => updated.includes(Number(p.id))));
+    localStorage.setItem("notiPolicyIds", JSON.stringify(updated));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
       <header className="bg-white shadow-sm border-b">
@@ -78,6 +85,7 @@ const Notifications = () => {
                 policy={getPolicyWithTime(policy)}
                 onLike={() => {}}
                 onView={() => {}}
+                onNotiCancel={handleNotiCancel}
               />
             ))}
           </div>
