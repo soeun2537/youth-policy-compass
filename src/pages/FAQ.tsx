@@ -73,6 +73,8 @@ const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [openItems, setOpenItems] = useState<number[]>([]);
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [inquiry, setInquiry] = useState({ name: "", email: "", content: "" });
 
   const categories = ["전체", "일반", "정책 신청", "자격 조건", "이용 방법", "문제 해결", "기타"];
 
@@ -94,6 +96,17 @@ const FAQ = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleInquiryChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setInquiry(prev => ({ ...prev, [name]: value }));
+  };
+  const handleInquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("문의가 접수되었습니다!");
+    setShowInquiryModal(false);
+    setInquiry({ name: "", email: "", content: "" });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
@@ -190,11 +203,36 @@ const FAQ = () => {
         <div className="mt-12 text-center bg-blue-50 rounded-lg p-8">
           <h3 className="text-xl font-bold mb-2">찾으시는 답변이 없나요?</h3>
           <p className="text-gray-600 mb-4">언제든지 문의해주세요. 빠르게 도움을 드리겠습니다.</p>
-          <Button size="lg">
+          <Button size="lg" onClick={() => setShowInquiryModal(true)}>
             문의하기
           </Button>
         </div>
       </main>
+
+      {/* 문의하기 모달 */}
+      {showInquiryModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <form onSubmit={handleInquirySubmit} className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto p-8">
+            <h2 className="text-xl font-bold mb-6 text-gray-900">문의하기</h2>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
+              <input type="text" name="name" value={inquiry.name} onChange={handleInquiryChange} required className="w-full border rounded-lg px-3 py-2" placeholder="이름을 입력하세요" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+              <input type="email" name="email" value={inquiry.email} onChange={handleInquiryChange} required className="w-full border rounded-lg px-3 py-2" placeholder="이메일을 입력하세요" />
+            </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-1">문의 내용</label>
+              <textarea name="content" value={inquiry.content} onChange={handleInquiryChange} required className="w-full border rounded-lg px-3 py-2" rows={5} placeholder="문의하실 내용을 입력하세요" />
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setShowInquiryModal(false)}>취소</Button>
+              <Button type="submit" className="flex-1">제출</Button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

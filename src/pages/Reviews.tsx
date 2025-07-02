@@ -87,6 +87,8 @@ const renderStars = (rating: number) => {
 const Reviews = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewForm, setReviewForm] = useState({ name: "", policyTitle: "", rating: 0, content: "" });
   
   const categories = ["전체", "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"];
   
@@ -97,6 +99,20 @@ const Reviews = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleReviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setReviewForm(prev => ({ ...prev, [name]: value }));
+  };
+  const handleStarClick = (idx: number) => {
+    setReviewForm(prev => ({ ...prev, rating: idx + 1 }));
+  };
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("후기가 등록되었습니다!");
+    setShowReviewModal(false);
+    setReviewForm({ name: "", policyTitle: "", rating: 0, content: "" });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
@@ -181,7 +197,7 @@ const Reviews = () => {
 
         {/* 후기 작성 버튼 */}
         <div className="mt-12 text-center">
-          <Button size="lg" className="px-8">
+          <Button size="lg" className="px-8" onClick={() => setShowReviewModal(true)}>
             후기 작성하기
           </Button>
           <p className="text-sm text-gray-500 mt-2">
@@ -189,6 +205,43 @@ const Reviews = () => {
           </p>
         </div>
       </main>
+
+      {/* 후기 작성 모달 */}
+      {showReviewModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <form onSubmit={handleReviewSubmit} className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto p-8">
+            <h2 className="text-xl font-bold mb-6 text-gray-900">후기 작성하기</h2>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
+              <input type="text" name="name" value={reviewForm.name} onChange={handleReviewChange} required className="w-full border rounded-lg px-3 py-2" placeholder="이름을 입력하세요" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">정책명</label>
+              <input type="text" name="policyTitle" value={reviewForm.policyTitle} onChange={handleReviewChange} required className="w-full border rounded-lg px-3 py-2" placeholder="정책명을 입력하세요" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">별점</label>
+              <div className="flex gap-1 mb-1">
+                {[0,1,2,3,4].map(idx => (
+                  <span key={idx} onClick={() => handleStarClick(idx)} className="cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill={reviewForm.rating > idx ? '#facc15' : 'none'} viewBox="0 0 24 24" stroke="#facc15" className="h-6 w-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.036 6.29a1 1 0 00.95.69h6.6c.969 0 1.371 1.24.588 1.81l-5.347 3.89a1 1 0 00-.364 1.118l2.036 6.29c.3.921-.755 1.688-1.54 1.118l-5.347-3.89a1 1 0 00-1.176 0l-5.347 3.89c-.784.57-1.838-.197-1.54-1.118l2.036-6.29a1 1 0 00-.364-1.118l-5.347-3.89c-.783-.57-.38-1.81.588-1.81h6.6a1 1 0 00.95-.69l2.036-6.29z" />
+                    </svg>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-1">후기 내용</label>
+              <textarea name="content" value={reviewForm.content} onChange={handleReviewChange} required className="w-full border rounded-lg px-3 py-2" rows={5} placeholder="후기를 입력하세요" />
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setShowReviewModal(false)}>취소</Button>
+              <Button type="submit" className="flex-1">제출</Button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
