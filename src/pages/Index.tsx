@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Bell, User, TrendingUp, MapPin, Clock, Bot } from "lucide-react";
+import { Heart, Bell, User, TrendingUp, MapPin, Clock, Bot, Timer, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import { allPolicies } from "../lib/allPolicies";
+import PolicyCard from "../components/PolicyCard";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,21 +21,39 @@ const Index = () => {
   const { likedPolicyIds, handleLike } = useFavorites();
 
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showEditTimeModal, setShowEditTimeModal] = useState(false);
+  const [editingTime, setEditingTime] = useState("");
   const quickFilters = [
     "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"
   ];
   const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "" });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
+  const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
+
   useEffect(() => {
     const saved = localStorage.getItem("notiPolicyIds");
     if (saved) setNotiPolicyIds(JSON.parse(saved));
+
+    const savedTimes = localStorage.getItem("policyTimes");
+    if (savedTimes) setPolicyTimes(JSON.parse(savedTimes));
   }, []);
+
   const handleNoti = (id: string) => {
     if (!notiPolicyIds.includes(id)) {
       const updated = [...notiPolicyIds, id];
       setNotiPolicyIds(updated);
       localStorage.setItem("notiPolicyIds", JSON.stringify(updated));
+    }
+  };
+
+  const handleTimeEdit = (time: string) => {
+    if (selectedPolicy) {
+      const updated = { ...policyTimes, [selectedPolicy.id]: time };
+      setPolicyTimes(updated);
+      localStorage.setItem("policyTimes", JSON.stringify(updated));
+      setShowEditTimeModal(false);
+      setEditingTime("");
     }
   };
 
@@ -68,11 +87,9 @@ const Index = () => {
     setShowProfileModal(false);
   };
 
-  // 검색 및 필터링 함수
   const applyFilters = (query: string, filters: string[]) => {
     let filtered = allPolicies;
 
-    // 검색어 필터링
     if (query.trim()) {
       const searchText = query.toLowerCase();
       filtered = filtered.filter(policy => {
@@ -86,7 +103,6 @@ const Index = () => {
       });
     }
 
-    // 카테고리 필터링
     if (filters.length > 0) {
       filtered = filtered.filter(policy => filters.includes(policy.category));
     }
@@ -104,11 +120,47 @@ const Index = () => {
     applyFilters(searchQuery, filters);
   };
 
-  // 추천 정책 (기본 3개)
-  const recommendedPolicies = allPolicies.slice(0, 3);
+  const getSimilarUsersPolicies = () => {
+    if (!profile.interest.length && !profile.job && !profile.income) {
+      return allPolicies.slice(0, 3);
+    }
 
-  // 표시할 정책 목록 결정
-  const displayPolicies = filteredPolicies.length > 0 ? filteredPolicies : recommendedPolicies;
+    let scored = allPolicies.map(policy => {
+      let score = 0;
+      
+      // 관심 분야 매칭
+      if (profile.interest.length > 0 && profile.interest.includes(policy.category)) {
+        score += 3;
+      }
+      
+      // 직업 상태별 추천
+      if (profile.job === "학생" && policy.tags.some(tag => tag.includes("학생") || tag.includes("대학"))) {
+        score += 2;
+      }
+      if (profile.job === "구직" && policy.category === "취업지원") {
+        score += 2;
+      }
+      
+      // 소득 수준별 추천
+      if (profile.income === "low" && policy.tags.some(tag => tag.includes("저소득") || tag.includes("지원"))) {
+        score += 2;
+      }
+      
+      return { ...policy, score };
+    });
+
+    return scored
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 4);
+  };
+
+  const recommendedPolicies = allPolicies.slice(0, 3);
+  const similarUsersPolicies = getSimilarUsersPolicies();
+
+  const getPolicyWithTime = (policy: any) => ({
+    ...policy,
+    estimatedTime: policyTimes[policy.id] || undefined
+  });
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -179,7 +231,6 @@ const Index = () => {
             복잡한 정책 정보를 한 곳에서, 맞춤형 추천으로 더 간편하게
           </p>
           
-          {/* Search Bar with Filters */}
           <div className="max-w-4xl mx-auto">
             <SearchBar
               onSearch={handleSearch}
@@ -215,6 +266,23 @@ const Index = () => {
           </Card>
         </div>
 
+        {/* Similar Users' Policies Section - 검색/필터 결과가 없을 때만 표시 */}
+        {filteredPolicies.length === 0 && !searchQuery.trim() && activeFilters.length === 0 && (
+          <section className="mb-12">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">나와 비슷한 청년들이 많이 신청한 정책</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {similarUsersPolicies.map((policy) => (
+                <PolicyCard
+                  key={policy.id}
+                  policy={getPolicyWithTime(policy)}
+                  onLike={handleLike}
+                  onView={setSelectedPolicy}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Policy Results */}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
@@ -249,74 +317,12 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayPolicies.map((policy) => (
-              <Card key={policy.id} className="hover:shadow-lg transition-all duration-300 group cursor-pointer">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className={`text-xs ${getCategoryColor(policy.category)}`}>
-                          {policy.category}
-                        </Badge>
-                        {policy.isNew && (
-                          <Badge variant="destructive" className="text-xs">NEW</Badge>
-                        )}
-                      </div>
-                      <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                        {policy.title}
-                      </CardTitle>
-                    </div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      className={`shrink-0 ${likedPolicyIds.includes(policy.id) ? 'text-red-500' : 'text-gray-400'}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleLike(policy.id);
-                      }}
-                    >
-                      <Heart className={`h-4 w-4 ${likedPolicyIds.includes(policy.id) ? 'fill-current' : ''}`} />
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm mb-4">
-                    {policy.summary}
-                  </p>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <MapPin className="h-4 w-4 mr-2 shrink-0" />
-                      <span className="truncate">{policy.institution}</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-gray-500">
-                      <Clock className="h-4 w-4 mr-2 shrink-0" />
-                      {policy.deadline === '상시모집' ? (
-                        <span className="text-green-600 font-medium">상시모집</span>
-                      ) : (
-                        <span>마감: {policy.deadline}</span>
-                      )}
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-1">
-                      {policy.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          #{tag}
-                        </Badge>
-                      ))}
-                      {policy.tags.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{policy.tags.length - 3}
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    <Button className="w-full group-hover:bg-blue-600 transition-colors" onClick={() => setSelectedPolicy(policy)}>
-                      자세히 보기
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <PolicyCard
+                key={policy.id}
+                policy={getPolicyWithTime(policy)}
+                onLike={handleLike}
+                onView={setSelectedPolicy}
+              />
             ))}
           </div>
 
@@ -397,6 +403,22 @@ const Index = () => {
                   <span>마감: {selectedPolicy.deadline}</span>
                 )}
               </div>
+              <div className="mb-4 flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center">
+                  <Timer className="h-4 w-4 mr-2 shrink-0" />
+                  <span>예상 소요 시간: {policyTimes[selectedPolicy.id] || "미설정"}</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setEditingTime(policyTimes[selectedPolicy.id] || "");
+                    setShowEditTimeModal(true);
+                  }}
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+              </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {selectedPolicy.tags.map((tag: string) => (
                   <Badge key={tag} variant="outline" className="text-xs">#{tag}</Badge>
@@ -418,6 +440,46 @@ const Index = () => {
                 >
                   {notiPolicyIds.includes(selectedPolicy.id) ? '알림 신청됨' : '알림 받기'}
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 예상 소요 시간 편집 모달 */}
+        {showEditTimeModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 relative animate-fade-in">
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"
+                onClick={() => setShowEditTimeModal(false)}
+                aria-label="닫기"
+              >
+                ×
+              </button>
+              <h3 className="text-lg font-bold mb-4">예상 소요 시간 설정</h3>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={editingTime}
+                  onChange={(e) => setEditingTime(e.target.value)}
+                  placeholder="예: 10분, 1시간, 1일 등"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => setShowEditTimeModal(false)}
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={() => handleTimeEdit(editingTime)}
+                  >
+                    저장
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

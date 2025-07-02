@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, MapPin, Clock, ExternalLink } from "lucide-react";
+import { Heart, MapPin, Clock, ExternalLink, Timer } from "lucide-react";
 
 interface Policy {
   id: number;
@@ -14,6 +14,7 @@ interface Policy {
   summary: string;
   isNew?: boolean;
   liked?: boolean;
+  estimatedTime?: string;
 }
 
 interface PolicyCardProps {
@@ -44,6 +45,12 @@ const PolicyCard = ({ policy, onLike, onView }: PolicyCardProps) => {
               </Badge>
               {policy.isNew && (
                 <Badge variant="destructive" className="text-xs">NEW</Badge>
+              )}
+              {policy.estimatedTime && (
+                <Badge variant="outline" className="text-xs text-blue-600">
+                  <Timer className="h-3 w-3 mr-1" />
+                  {policy.estimatedTime}
+                </Badge>
               )}
             </div>
             <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
