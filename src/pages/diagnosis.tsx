@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, Clock, ArrowLeft, Send, Bot, User } from "lucide-react";
+import { MapPin, Clock, ArrowLeft, Send, Bot, User, X } from "lucide-react";
 
 const getCategoryColor = (category: string) => {
   switch (category) {
@@ -72,7 +72,12 @@ const Diagnosis = () => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [tempProfile, setTempProfile] = useState<{ name: string; interest: string[] }>({ name: "", interest: [] });
   const navigate = useNavigate();
+  const interestOptions = [
+    '취업지원', '주거지원', '창업지원', '교육지원', '생활지원', '문화/여가'
+  ];
 
   useEffect(() => {
     const saved = localStorage.getItem("userProfile");
@@ -134,6 +139,24 @@ const Diagnosis = () => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleProfileEdit = () => {
+    setTempProfile({ ...profile });
+    setShowProfileModal(true);
+  };
+  const handleProfileSave = () => {
+    setProfile(tempProfile);
+    localStorage.setItem("userProfile", JSON.stringify(tempProfile));
+    setShowProfileModal(false);
+  };
+  const handleInterestToggle = (interest: string) => {
+    setTempProfile(prev => ({
+      ...prev,
+      interest: prev.interest.includes(interest)
+        ? prev.interest.filter(i => i !== interest)
+        : [...prev.interest, interest]
+    }));
   };
 
   return (
@@ -279,7 +302,7 @@ const Diagnosis = () => {
                     variant="outline" 
                     size="sm" 
                     className="w-full"
-                    onClick={() => navigate("/")}
+                    onClick={handleProfileEdit}
                   >
                     프로필 수정
                   </Button>
@@ -315,6 +338,50 @@ const Diagnosis = () => {
           </div>
         </div>
       </main>
+
+      {/* 프로필 수정 모달 */}
+      {showProfileModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-bold text-gray-900">프로필 수정</h2>
+              <Button variant="ghost" size="icon" onClick={() => setShowProfileModal(false)}>
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            <div className="p-6 space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">이름</label>
+                <Input
+                  value={tempProfile.name}
+                  onChange={(e) => setTempProfile(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="이름을 입력하세요"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">관심 분야 (복수 선택 가능)</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {interestOptions.map((interest) => (
+                    <Button
+                      key={interest}
+                      variant={tempProfile.interest.includes(interest) ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handleInterestToggle(interest)}
+                      className="justify-start"
+                    >
+                      {interest}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-3 p-6 border-t">
+              <Button variant="outline" onClick={() => setShowProfileModal(false)} className="flex-1">취소</Button>
+              <Button onClick={handleProfileSave} className="flex-1">저장</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
