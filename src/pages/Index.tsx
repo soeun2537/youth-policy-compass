@@ -252,35 +252,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">청년정책 찾기</h1>
+              <h1 className="text-2xl font-bold text-gray-900">청년정책포털</h1>
             </div>
-            <nav className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate("/diagnosis")}>
-                <Bot className="h-4 w-4 mr-2" />
-                AI 진단
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => navigate("/notifications")}>
-                <Bell className="h-4 w-4 mr-2" />
-                알림
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/favorites")}
-              >
-                <Heart className="h-4 w-4 mr-2" />
-                찜목록
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => setShowProfileModal(true)}>
-                <User className="h-4 w-4 mr-2" />
-                프로필 설정
-              </Button>
+            <nav className="flex space-x-8">
+              <a href="/" className="text-gray-700 hover:text-blue-600">홈</a>
+              <a href="/favorites" className="text-gray-700 hover:text-blue-600">찜한 정책</a>
+              <a href="/diagnosis" className="text-gray-700 hover:text-blue-600">맞춤 진단</a>
+              <a href="/dictionary" className="text-gray-700 hover:text-blue-600">용어 사전</a>
+              <a href="/faq" className="text-gray-700 hover:text-blue-600">FAQ</a>
             </nav>
           </div>
         </div>
