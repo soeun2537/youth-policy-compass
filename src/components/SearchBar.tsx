@@ -10,16 +10,17 @@ interface SearchBarProps {
   onFilterChange?: (filters: string[]) => void;
   placeholder?: string;
   showQuickFilters?: boolean;
+  activeFilters?: string[];
 }
 
 const SearchBar = ({ 
   onSearch, 
   onFilterChange, 
   placeholder = "정책을 검색해보세요",
-  showQuickFilters = true 
+  showQuickFilters = true,
+  activeFilters = [],
 }: SearchBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const quickFilters = [
@@ -71,13 +72,10 @@ const SearchBar = ({
     const newFilters = activeFilters.includes(filter)
       ? activeFilters.filter(f => f !== filter)
       : [...activeFilters, filter];
-    
-    setActiveFilters(newFilters);
     onFilterChange?.(newFilters);
   };
 
   const clearFilters = () => {
-    setActiveFilters([]);
     onFilterChange?.([]);
   };
 
@@ -120,12 +118,12 @@ const SearchBar = ({
 
       {/* Quick Filters */}
       {showQuickFilters && (
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span></span>
           </div>
           
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3 mt-2">
             {quickFilters.map((filter) => {
               const isActive = activeFilters.includes(filter);
               // 카테고리별 이모티콘 매핑
@@ -141,7 +139,7 @@ const SearchBar = ({
                 <div key={filter}>
                   <Badge
                     variant={isActive ? "default" : "outline"}
-                    className={`cursor-pointer transition-all flex items-center gap-2 shadow-md px-3 py-2 text-base font-semibold rounded-xl border-2 ${
+                    className={`cursor-pointer transition-all flex items-center gap-2 shadow-md px-4 py-2 text-base font-semibold rounded-xl border-2 ${
                       isActive 
                         ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700" 
                         : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300"

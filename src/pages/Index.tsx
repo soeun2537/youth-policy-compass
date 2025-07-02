@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,8 @@ const Index = () => {
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
+
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("notiPolicyIds");
@@ -123,6 +125,7 @@ const Index = () => {
 
   const handleFilterChange = (filters: string[]) => {
     setActiveFilters(filters);
+    setShowAll(false);
     applyFilters(searchQuery, filters);
   };
 
@@ -193,6 +196,56 @@ const Index = () => {
     }
   };
 
+  // 정책별 찜/알림 신청 카운트 계산
+  const likeCountMap = useMemo(() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("likedPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  }, [allPolicies]);
+  const notiCountMap = useMemo(() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("notiPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  }, [allPolicies]);
+
+  const [sortType, setSortType] = useState<'default'|'like'|'noti'>("default");
+
+  // 정렬 적용
+  const sortedDisplayPolicies = useMemo(() => {
+    let arr = [...displayPolicies];
+    if (sortType === 'like') {
+      arr.sort((a, b) => (likeCountMap[b.id] || 0) - (likeCountMap[a.id] || 0));
+    } else if (sortType === 'noti') {
+      arr.sort((a, b) => (notiCountMap[b.id] || 0) - (notiCountMap[a.id] || 0));
+    }
+    return arr;
+  }, [displayPolicies, sortType, likeCountMap, notiCountMap]);
+
+  const handleAllViewToggle = () => {
+    if (showAll) {
+      setFilteredPolicies([]);
+      setSearchQuery("");
+      setActiveFilters([]);
+    } else {
+      setFilteredPolicies(allPolicies);
+      setSearchQuery("");
+      setActiveFilters([]);
+    }
+    setShowAll(!showAll);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
       {/* Header */}
@@ -256,7 +309,42 @@ const Index = () => {
               onFilterChange={handleFilterChange}
               placeholder="관심있는 정책을 검색해보세요 (예: 청년 주택, 취업지원)"
               showQuickFilters={true}
+              activeFilters={activeFilters}
             />
+            <div className="flex flex-wrap gap-3 justify-start mt-4">
+              <button
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-base font-semibold shadow-md transition-all
+                  ${showAll ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}
+                style={{ boxShadow: showAll ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
+                onClick={handleAllViewToggle}
+              >
+                전체보기
+              </button>
+              <button
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-base font-semibold shadow-md transition-all
+                  ${sortType === 'default' ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}
+                style={{ boxShadow: sortType === 'default' ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
+                onClick={() => setSortType('default')}
+              >
+                기본순
+              </button>
+              <button
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-base font-semibold shadow-md transition-all
+                  ${sortType === 'like' ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}
+                style={{ boxShadow: sortType === 'like' ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
+                onClick={() => setSortType('like')}
+              >
+                찜 많은 순
+              </button>
+              <button
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-base font-semibold shadow-md transition-all
+                  ${sortType === 'noti' ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'}`}
+                style={{ boxShadow: sortType === 'noti' ? '0 2px 8px 0 rgba(37, 99, 235, 0.15)' : '0 1px 4px 0 rgba(0,0,0,0.06)' }}
+                onClick={() => setSortType('noti')}
+              >
+                알림 신청 많은 순
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -311,31 +399,10 @@ const Index = () => {
                 "맞춤 추천 정책"
               }
             </h3>
-            <Button
-              variant="outline"
-              onClick={() => {
-                const isAllView =
-                  filteredPolicies.length === allPolicies.length &&
-                  searchQuery === "" &&
-                  activeFilters.length === 0;
-                if (isAllView) {
-                  setFilteredPolicies([]);
-                  setSearchQuery("");
-                  setActiveFilters([]);
-                } else {
-                  setFilteredPolicies(allPolicies);
-                  setSearchQuery("");
-                  setActiveFilters([]);
-                }
-              }}
-            >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              전체보기
-            </Button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayPolicies.map((policy) => (
+            {sortedDisplayPolicies.map((policy) => (
               <PolicyCard
                 key={policy.id}
                 policy={getPolicyWithTime(policy)}
