@@ -217,11 +217,24 @@ const Index = () => {
                 "맞춤 추천 정책"
               }
             </h3>
-            <Button variant="outline" onClick={() => {
-              setFilteredPolicies(allPolicies);
-              setSearchQuery("");
-              setActiveFilters([]);
-            }}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                const isAllView =
+                  filteredPolicies.length === allPolicies.length &&
+                  searchQuery === "" &&
+                  activeFilters.length === 0;
+                if (isAllView) {
+                  setFilteredPolicies([]);
+                  setSearchQuery("");
+                  setActiveFilters([]);
+                } else {
+                  setFilteredPolicies(allPolicies);
+                  setSearchQuery("");
+                  setActiveFilters([]);
+                }
+              }}
+            >
               <TrendingUp className="h-4 w-4 mr-2" />
               전체보기
             </Button>
