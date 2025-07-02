@@ -154,15 +154,24 @@ const Index = () => {
       .slice(0, 4);
   };
 
-  const recommendedPolicies = allPolicies.slice(0, 3);
-  const similarUsersPolicies = getSimilarUsersPolicies();
+  function sortByDeadline(policies: any[]) {
+    return policies.slice().sort((a, b) => {
+      // '상시모집'은 항상 마지막
+      if (a.deadline === '상시모집' && b.deadline !== '상시모집') return 1;
+      if (b.deadline === '상시모집' && a.deadline !== '상시모집') return -1;
+      if (a.deadline === '상시모집' && b.deadline === '상시모집') return 0;
+      // 날짜 비교
+      return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+    });
+  }
 
-  // Define displayPolicies based on search/filter state
-  const displayPolicies = filteredPolicies.length > 0 ? filteredPolicies : recommendedPolicies;
+  const recommendedPolicies = sortByDeadline(allPolicies.slice(0, 3));
+  const similarUsersPolicies = sortByDeadline(getSimilarUsersPolicies());
+  const displayPolicies = sortByDeadline(filteredPolicies.length > 0 ? filteredPolicies : recommendedPolicies);
 
   const getPolicyWithTime = (policy: any) => ({
     ...policy,
-    estimatedTime: policyTimes[policy.id] || undefined,
+    estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
     liked: likedPolicyIds.includes(policy.id)
   });
 
