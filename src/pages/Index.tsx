@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, MapPin, Clock, Timer } from "lucide-react";
+import { User, MapPin, Clock, Timer, Heart, Bell } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
@@ -179,7 +179,9 @@ const Index = () => {
   const getPolicyWithTime = (policy: any) => ({
     ...policy,
     estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
-    liked: likedPolicyIds.includes(policy.id)
+    liked: likedPolicyIds.includes(policy.id),
+    likeCount: likeCountMap[policy.id] || 0,
+    applicationCount: notiCountMap[policy.id] || 0
   });
 
   // 정책별 찜/알림 신청 카운트 계산
@@ -461,6 +463,22 @@ const Index = () => {
               </div>
               <h2 className="text-2xl font-bold mb-2">{selectedPolicy.title}</h2>
               <div className="text-gray-600 mb-4">{selectedPolicy.summary}</div>
+              
+              {/* 좋아요 및 신청 통계 */}
+              <div className="flex items-center justify-center gap-6 bg-gray-50 rounded-lg py-3 mb-4">
+                <div className="flex items-center gap-2 text-red-600">
+                  <Heart className="h-5 w-5" />
+                  <span className="font-semibold">{likeCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="text-sm text-gray-600">좋아요</span>
+                </div>
+                <div className="w-px h-6 bg-gray-300"></div>
+                <div className="flex items-center gap-2 text-blue-600">
+                  <Bell className="h-5 w-5" />
+                  <span className="font-semibold">{notiCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="text-sm text-gray-600">알림 신청</span>
+                </div>
+              </div>
+              
               <div className="mb-2 flex items-center text-sm text-gray-500">
                 <MapPin className="h-4 w-4 mr-2 shrink-0" />
                 <span>{selectedPolicy.institution}</span>

@@ -1,10 +1,11 @@
+
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import PolicyCard from "../components/PolicyCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryColor } from "../lib/categoryColors.ts";
-import { MapPin, Clock, Timer } from "lucide-react";
+import { MapPin, Clock, Timer, Heart, Bell } from "lucide-react";
 
 const Favorites = () => {
   const navigate = useNavigate();
@@ -13,6 +14,31 @@ const Favorites = () => {
   const [selectedPolicy, setSelectedPolicy] = useState<any | null>(null);
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
+
+  // 정책별 찜/알림 신청 카운트 계산
+  const likeCountMap = useMemo(() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("likedPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  }, [allPolicies]);
+
+  const notiCountMap = useMemo(() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("notiPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  }, [allPolicies]);
 
   useEffect(() => {
     const saved = localStorage.getItem("notiPolicyIds");
@@ -34,6 +60,14 @@ const Favorites = () => {
     localStorage.setItem("notiPolicyIds", JSON.stringify(updated));
   };
 
+  const getPolicyWithCounts = (policy: any) => ({
+    ...policy,
+    liked: true,
+    estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
+    likeCount: likeCountMap[policy.id] || 0,
+    applicationCount: notiCountMap[policy.id] || 0
+  });
+
   return (
     <div className="min-h-screen" style={{ background: '#F8FBFF' }}>
       <header className="bg-white shadow-sm border-b">
@@ -53,7 +87,7 @@ const Favorites = () => {
             {likedPolicies.map((policy) => (
               <PolicyCard
                 key={policy.id}
-                policy={{ ...policy, liked: true }}
+                policy={getPolicyWithCounts(policy)}
                 onLike={handleLike}
                 onView={setSelectedPolicy}
               />
@@ -77,6 +111,22 @@ const Favorites = () => {
               </div>
               <h2 className="text-2xl font-bold mb-2">{selectedPolicy.title}</h2>
               <div className="text-gray-600 mb-4">{selectedPolicy.summary}</div>
+              
+              {/* 좋아요 및 신청 통계 */}
+              <div className="flex items-center justify-center gap-6 bg-gray-50 rounded-lg py-3 mb-4">
+                <div className="flex items-center gap-2 text-red-600">
+                  <Heart className="h-5 w-5" />
+                  <span className="font-semibold">{likeCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="text-sm text-gray-600">좋아요</span>
+                </div>
+                <div className="w-px h-6 bg-gray-300"></div>
+                <div className="flex items-center gap-2 text-blue-600">
+                  <Bell className="h-5 w-5" />
+                  <span className="font-semibold">{notiCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="text-sm text-gray-600">알림 신청</span>
+                </div>
+              </div>
+              
               <div className="mb-2 flex items-center text-sm text-gray-500">
                 <MapPin className="h-4 w-4 mr-2 shrink-0" />
                 <span>{selectedPolicy.institution}</span>

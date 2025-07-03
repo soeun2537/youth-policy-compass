@@ -1,7 +1,8 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, MapPin, Clock, ExternalLink, Timer, BellOff } from "lucide-react";
+import { Heart, MapPin, Clock, ExternalLink, Timer, BellOff, Users, Bell } from "lucide-react";
 import { getCategoryColor } from "../lib/categoryColors.ts";
 
 interface Policy {
@@ -15,6 +16,8 @@ interface Policy {
   isNew?: boolean;
   liked?: boolean;
   estimatedTime?: string;
+  likeCount?: number;
+  applicationCount?: number;
 }
 
 interface PolicyCardProps {
@@ -92,6 +95,19 @@ const PolicyCard = ({ policy, onLike, onView, onNotiCancel }: PolicyCardProps) =
               <span>신청 난이도: {policy.estimatedTime}</span>
             </div>
           )}
+          
+          {/* 좋아요 및 신청 통계 */}
+          <div className="flex items-center justify-between text-sm text-gray-500 bg-gray-50 rounded-lg px-3 py-2">
+            <div className="flex items-center gap-1">
+              <Heart className="h-4 w-4 text-red-400" />
+              <span>{policy.likeCount || 0}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Bell className="h-4 w-4 text-blue-400" />
+              <span>{policy.applicationCount || 0}</span>
+            </div>
+          </div>
+          
           <div className="flex flex-wrap gap-1">
             {policy.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="outline" className="text-xs">
