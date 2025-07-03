@@ -24,7 +24,7 @@ const Index = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showEditTimeModal, setShowEditTimeModal] = useState(false);
   const [editingTime, setEditingTime] = useState("");
-  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "" });
+  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "", marital: "", family: "" });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
@@ -75,7 +75,9 @@ const Index = () => {
         birth: parsed.birth || "",
         region: parsed.region || "",
         job: parsed.job || "",
-        income: parsed.income || ""
+        income: parsed.income || "",
+        marital: parsed.marital || "",
+        family: parsed.family || ""
       });
     }
   }, []);
@@ -542,7 +544,7 @@ const Index = () => {
         {/* 프로필 설정 모달 */}
         {showProfileModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-8 relative animate-fade-in">
+            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-8 relative animate-fade-in" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
               <button
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
                 onClick={() => setShowProfileModal(false)}
@@ -660,6 +662,38 @@ const Index = () => {
                     placeholder="간단한 자기소개를 입력하세요"
                     rows={3}
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">혼인 여부</label>
+                  <select
+                    name="marital"
+                    value={profile.marital}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">선택하세요</option>
+                    <option value="미혼">미혼</option>
+                    <option value="기혼">기혼</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">가족형태</label>
+                  <select
+                    name="family"
+                    value={profile.family}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">선택하세요</option>
+                    <option value="1인가구">1인가구</option>
+                    <option value="2인가구">2인가구</option>
+                    <option value="3인가구">3인가구</option>
+                    <option value="4인가구">4인가구</option>
+                    <option value="5인 이상">5인 이상</option>
+                    <option value="한부모가정">한부모가정</option>
+                    <option value="조손가정">조손가정</option>
+                    <option value="기타">기타</option>
+                  </select>
                 </div>
                 <button
                   className="w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
