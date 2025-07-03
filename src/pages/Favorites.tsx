@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import PolicyCard from "../components/PolicyCard";
@@ -64,8 +63,8 @@ const Favorites = () => {
     ...policy,
     liked: true,
     estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
-    likeCount: likeCountMap[policy.id] || 0,
-    applicationCount: notiCountMap[policy.id] || 0
+    likeCount: typeof policy.likeCount === 'number' ? policy.likeCount : (likeCountMap[policy.id] || 0),
+    applicationCount: typeof policy.applicationCount === 'number' ? policy.applicationCount : (notiCountMap[policy.id] || 0)
   });
 
   return (
@@ -116,13 +115,13 @@ const Favorites = () => {
               <div className="flex items-center justify-center gap-6 bg-gray-50 rounded-lg py-3 mb-4">
                 <div className="flex items-center gap-2 text-red-600">
                   <Heart className="h-5 w-5" />
-                  <span className="font-semibold">{likeCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="font-semibold">{typeof selectedPolicy.likeCount === 'number' ? selectedPolicy.likeCount : (likeCountMap[selectedPolicy.id] || 0)}</span>
                   <span className="text-sm text-gray-600">좋아요</span>
                 </div>
                 <div className="w-px h-6 bg-gray-300"></div>
                 <div className="flex items-center gap-2 text-blue-600">
                   <Bell className="h-5 w-5" />
-                  <span className="font-semibold">{notiCountMap[selectedPolicy.id] || 0}</span>
+                  <span className="font-semibold">{typeof selectedPolicy.applicationCount === 'number' ? selectedPolicy.applicationCount : (notiCountMap[selectedPolicy.id] || 0)}</span>
                   <span className="text-sm text-gray-600">알림 신청</span>
                 </div>
               </div>

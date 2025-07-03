@@ -34,10 +34,36 @@ const Notifications = () => {
     if (savedLikes) setLikedPolicyIds(JSON.parse(savedLikes));
   }, []);
 
+  // 정책별 찜/알림 신청 카운트 계산
+  const likeCountMap = (() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("likedPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  })();
+  const notiCountMap = (() => {
+    const map: Record<number, number> = {};
+    allPolicies.forEach(p => { map[p.id] = 0; });
+    const saved = localStorage.getItem("notiPolicyIds");
+    if (saved) {
+      JSON.parse(saved).forEach((id: number) => {
+        if (map[id] !== undefined) map[id] += 1;
+      });
+    }
+    return map;
+  })();
+
   const getPolicyWithTime = (policy: any) => ({
     ...policy,
     estimatedTime: policyTimes[policy.id] || policy.estimatedTime,
-    liked: likedPolicyIds.includes(policy.id)
+    liked: likedPolicyIds.includes(policy.id),
+    likeCount: typeof policy.likeCount === 'number' ? policy.likeCount : (likeCountMap[policy.id] || 0),
+    applicationCount: typeof policy.applicationCount === 'number' ? policy.applicationCount : (notiCountMap[policy.id] || 0)
   });
 
   const handleNotiCancel = (id: number) => {
