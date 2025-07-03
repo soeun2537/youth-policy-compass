@@ -12,7 +12,11 @@ export const allPolicies = [
     estimatedTime: "2시간",
     likeCount: 37,
     applicationCount: 52,
-    target: "청년, 구직자"
+    target: "청년, 구직자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 2,
@@ -27,7 +31,11 @@ export const allPolicies = [
     estimatedTime: "30분",
     likeCount: 88,
     applicationCount: 110,
-    target: "청년, 무주택자"
+    target: "청년, 무주택자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 3,
@@ -42,7 +50,11 @@ export const allPolicies = [
     estimatedTime: "1일",
     likeCount: 21,
     applicationCount: 34,
-    target: "청년 창업가"
+    target: "청년 창업가",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 4,
@@ -57,7 +69,11 @@ export const allPolicies = [
     estimatedTime: "3시간",
     likeCount: 15,
     applicationCount: 19,
-    target: "청년, 미취업자"
+    target: "청년, 미취업자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 5,
@@ -72,7 +88,11 @@ export const allPolicies = [
     estimatedTime: "15분",
     likeCount: 61,
     applicationCount: 77,
-    target: "청년, 무주택자, 저소득층"
+    target: "청년, 무주택자, 저소득층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 6,
@@ -87,7 +107,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 42,
     applicationCount: 58,
-    target: "청년, 정규직"
+    target: "청년, 정규직",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 7,
@@ -102,7 +126,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 24,
     applicationCount: 31,
-    target: "청년 창업가"
+    target: "청년 창업가",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 8,
@@ -117,7 +145,11 @@ export const allPolicies = [
     estimatedTime: "20분",
     likeCount: 12,
     applicationCount: 17,
-    target: "대학생, 대학원생"
+    target: "대학생, 대학원생",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 9,
@@ -132,7 +164,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 19,
     applicationCount: 23,
-    target: "청년 문화예술인"
+    target: "청년 문화예술인",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 10,
@@ -147,7 +183,11 @@ export const allPolicies = [
     estimatedTime: "10분",
     likeCount: 54,
     applicationCount: 68,
-    target: "청년, 무주택자"
+    target: "청년, 무주택자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 11,
@@ -162,7 +202,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년 농업인"
+    target: "청년 농업인",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 12,
@@ -177,7 +221,11 @@ export const allPolicies = [
     estimatedTime: "3시간",
     likeCount: 18,
     applicationCount: 25,
-    target: "청년, 직업훈련 참여자"
+    target: "청년, 직업훈련 참여자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 13,
@@ -192,7 +240,11 @@ export const allPolicies = [
     estimatedTime: "1일",
     likeCount: 15,
     applicationCount: 20,
-    target: "청년, 해외취업 가능자"
+    target: "청년, 해외취업 가능자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 14,
@@ -207,7 +259,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 28,
     applicationCount: 35,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 15,
@@ -222,7 +278,11 @@ export const allPolicies = [
     estimatedTime: "10분",
     likeCount: 30,
     applicationCount: 40,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 16,
@@ -237,7 +297,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 12,
     applicationCount: 18,
-    target: "청년, 지역일자리 필요자"
+    target: "청년, 지역일자리 필요자",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 17,
@@ -252,7 +316,11 @@ export const allPolicies = [
     estimatedTime: "3시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년 소상공인"
+    target: "청년 소상공인",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 18,
@@ -267,7 +335,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 15,
     applicationCount: 20,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 19,
@@ -282,7 +354,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 20,
     applicationCount: 25,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 20,
@@ -297,7 +373,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 8,
     applicationCount: 12,
-    target: "청년 농업인"
+    target: "청년 농업인",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 21,
@@ -312,7 +392,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 22,
@@ -327,7 +411,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 12,
     applicationCount: 18,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 23,
@@ -342,7 +430,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년, 사회적기업 인턴"
+    target: "청년, 사회적기업 인턴",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 24,
@@ -357,7 +449,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 15,
     applicationCount: 20,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 25,
@@ -372,7 +468,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 26,
@@ -387,7 +487,11 @@ export const allPolicies = [
     estimatedTime: "2일",
     likeCount: 8,
     applicationCount: 12,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 27,
@@ -402,7 +506,11 @@ export const allPolicies = [
     estimatedTime: "1일",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 28,
@@ -417,7 +525,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 12,
     applicationCount: 18,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 29,
@@ -432,7 +544,11 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년 1인가구"
+    target: "청년 1인가구",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   },
   {
     id: 30,
@@ -447,6 +563,10 @@ export const allPolicies = [
     estimatedTime: "1시간",
     likeCount: 10,
     applicationCount: 15,
-    target: "청년층"
+    target: "청년층",
+    age: "만 19~34세",
+    income: "중위소득 150% 이하",
+    region: "전국",
+    supportAmount: "월 최대 200만원"
   }
 ]; 

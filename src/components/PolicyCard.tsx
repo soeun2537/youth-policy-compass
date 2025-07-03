@@ -100,10 +100,7 @@ const PolicyCard = ({ policy, onLike, onView, onNoti, onNotiCancel, isNoti }: Po
           {policy.summary}
         </p>
         <div className="space-y-3 mt-auto">
-          <div className="flex items-center text-sm text-gray-500">
-            <MapPin className="h-4 w-4 mr-2 shrink-0" />
-            <span className="truncate">{policy.institution}</span>
-          </div>
+          {/* 기관명(주최) 정보는 카드에서 표시하지 않음 */}
           {policy.target && (
             <div className="flex items-center text-sm text-gray-500">
               <Target className="h-4 w-4 mr-2 shrink-0" />

@@ -472,47 +472,45 @@ const Index = () => {
                 {selectedPolicy.isNew && <Badge variant="destructive" className="text-xs">NEW</Badge>}
               </div>
               <h2 className="text-2xl font-bold mb-2">{selectedPolicy.title}</h2>
-              <div className="text-gray-600 mb-4">{selectedPolicy.summary}</div>
-              
-              {/* 좋아요 및 신청 통계 */}
-              <div className="flex items-center justify-center gap-6 bg-gray-50 rounded-lg py-3 mb-4">
-                <div className="flex items-center gap-2 text-red-600">
-                  <Heart className="h-5 w-5" />
-                  <span className="font-semibold">{typeof selectedPolicy.likeCount === 'number' ? selectedPolicy.likeCount : (likeCountMap[selectedPolicy.id] || 0)}</span>
-                  <span className="text-sm text-gray-600">좋아요</span>
+              <div className="text-gray-600 mb-2">{selectedPolicy.summary}</div>
+              {/* 기관, 대상, 마감, 신청 난이도 - 설명 바로 아래로 이동 */}
+              <div className="mb-4 flex flex-col gap-1">
+                <div className="flex items-center text-sm text-gray-500">
+                  <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                  <span>{selectedPolicy.institution}</span>
                 </div>
-                <div className="w-px h-6 bg-gray-300"></div>
-                <div className="flex items-center gap-2 text-blue-600">
-                  <Bell className="h-5 w-5" />
-                  <span className="font-semibold">{typeof selectedPolicy.applicationCount === 'number' ? selectedPolicy.applicationCount : (notiCountMap[selectedPolicy.id] || 0)}</span>
-                  <span className="text-sm text-gray-600">알림 신청</span>
+                {selectedPolicy.target && (
+                  <div className="flex items-center text-sm text-gray-500">
+                    <Target className="h-4 w-4 mr-2 shrink-0" />
+                    <span>대상: {selectedPolicy.target}</span>
+                  </div>
+                )}
+                <div className="flex items-center text-sm text-gray-500">
+                  <Clock className="h-4 w-4 mr-2 shrink-0" />
+                  {selectedPolicy.deadline === '상시모집' ? (
+                    <span className="text-green-600 font-medium">상시모집</span>
+                  ) : (
+                    <span>마감: {selectedPolicy.deadline}</span>
+                  )}
                 </div>
-              </div>
-              
-              <div className="mb-2 flex items-center text-sm text-gray-500">
-                <MapPin className="h-4 w-4 mr-2 shrink-0" />
-                <span>{selectedPolicy.institution}</span>
-              </div>
-              {selectedPolicy.target && (
-                <div className="mb-2 flex items-center text-sm text-gray-500">
-                  <Target className="h-4 w-4 mr-2 shrink-0" />
-                  <span>대상: {selectedPolicy.target}</span>
-                </div>
-              )}
-              <div className="mb-2 flex items-center text-sm text-gray-500">
-                <Clock className="h-4 w-4 mr-2 shrink-0" />
-                {selectedPolicy.deadline === '상시모집' ? (
-                  <span className="text-green-600 font-medium">상시모집</span>
-                ) : (
-                  <span>마감: {selectedPolicy.deadline}</span>
+                {selectedPolicy.estimatedTime && (
+                  <div className="flex items-center text-sm text-blue-600 font-medium mb-1">
+                    <Timer className="h-4 w-4 mr-2 shrink-0" />
+                    <span>신청 난이도: {selectedPolicy.estimatedTime}</span>
+                  </div>
+                )}
+                {/* 구체적 신청 조건 - 신청 난이도 바로 아래 */}
+                {(selectedPolicy.age || selectedPolicy.income || selectedPolicy.region || selectedPolicy.supportAmount) && (
+                  <div className="mb-2 p-3 rounded-lg bg-blue-50 text-blue-900 text-sm flex flex-col gap-1">
+                    <span className="font-semibold">신청 조건</span>
+                    {selectedPolicy.age && <span>연령: {selectedPolicy.age}</span>}
+                    {selectedPolicy.income && <span>소득: {selectedPolicy.income}</span>}
+                    {selectedPolicy.region && <span>거주지: {selectedPolicy.region}</span>}
+                    {selectedPolicy.supportAmount && <span>지원 금액: {selectedPolicy.supportAmount}</span>}
+                  </div>
                 )}
               </div>
-              <div className="mb-4 flex items-center justify-between text-sm text-gray-500">
-                <div className="flex items-center">
-                  <Timer className="h-4 w-4 mr-2 shrink-0" />
-                  <span>신청 난이도: {policyTimes[selectedPolicy.id] || policyTimes[String(selectedPolicy.id)] || selectedPolicy.estimatedTime || "미설정"}</span>
-                </div>
-              </div>
+              {/* 해시태그 */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {selectedPolicy.tags.map((tag: string) => (
                   <Badge key={tag} variant="outline" className="text-xs">#{tag}</Badge>
