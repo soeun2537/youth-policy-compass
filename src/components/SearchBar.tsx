@@ -28,6 +28,11 @@ const SearchBar = ({
     "취업지원", "주거지원", "창업지원", "교육지원", "생활지원", "문화/여가"
   ];
 
+  // 인기 검색어 예시 (실제 서비스에서는 서버에서 받아올 수도 있음)
+  const popularKeywords = [
+    '청년 주택', '취업 지원', '창업', '월세 지원', '장학금', '해외취업'
+  ];
+
   // 자동 완성 추천어 추출
   const getSuggestions = (input: string) => {
     if (!input.trim()) return [];
@@ -115,6 +120,25 @@ const SearchBar = ({
             ))}
           </ul>
         )}
+      </div>
+      {/* 인기 검색어 해시태그 (인풋 아래로 분리) */}
+      <div className="flex flex-wrap gap-2 mb-3">
+        {popularKeywords.map((keyword) => {
+          return (
+            <button
+              key={keyword}
+              type="button"
+              className="px-3 py-1 rounded-full bg-transparent text-white text-sm font-medium hover:bg-blue-700 transition border border-blue-200"
+              onClick={() => {
+                setSearchQuery(keyword);
+                setShowSuggestions(false);
+                onSearch?.(keyword);
+              }}
+            >
+              #{keyword}
+            </button>
+          );
+        })}
       </div>
 
       {/* Quick Filters */}
