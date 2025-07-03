@@ -8,7 +8,7 @@
 
 서비스는 다음 URL에서 직접 확인하실 수 있습니다:
 
-[https://youth-policy-compass.lovable.app](https://youth-policy-compass.lovable.app)
+[https://youth-policy-compass.vercel.app/](https://youth-policy-compass.vercel.app/)
 
 ---
 
