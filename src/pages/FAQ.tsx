@@ -138,7 +138,7 @@ const FAQ = () => {
         )}
 
         {/* 문의하기 */}
-        <div className="mt-12 text-center bg-blue-50 rounded-lg p-8">
+        <div className="mt-12 text-center bg-white rounded-lg p-8 shadow-md">
           <h3 className="text-xl font-bold mb-2">찾으시는 답변이 없나요?</h3>
           <p className="text-gray-600 mb-4">언제든지 문의해주세요. 빠르게 도움을 드리겠습니다.</p>
           <Button size="lg" onClick={() => setShowInquiryModal(true)}>
