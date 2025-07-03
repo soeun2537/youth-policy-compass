@@ -4,7 +4,7 @@ import PolicyCard from "../components/PolicyCard";
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryColor } from "../lib/categoryColors.ts";
-import { MapPin, Clock, Timer, Heart, Bell } from "lucide-react";
+import { MapPin, Clock, Timer, Heart, Bell, Target } from "lucide-react";
 
 const Favorites = () => {
   const navigate = useNavigate();
@@ -130,6 +130,12 @@ const Favorites = () => {
                 <MapPin className="h-4 w-4 mr-2 shrink-0" />
                 <span>{selectedPolicy.institution}</span>
               </div>
+              {selectedPolicy.target && (
+                <div className="mb-2 flex items-center text-sm text-gray-500">
+                  <Target className="h-4 w-4 mr-2 shrink-0" />
+                  <span>대상: {selectedPolicy.target}</span>
+                </div>
+              )}
               <div className="mb-2 flex items-center text-sm text-gray-500">
                 <Clock className="h-4 w-4 mr-2 shrink-0" />
                 {selectedPolicy.deadline === '상시모집' ? (

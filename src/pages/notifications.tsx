@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Timer, Heart, Bell, Target } from "lucide-react";
 import PolicyCard from "../components/PolicyCard";
 import { allPolicies } from "../lib/allPolicies";
 
@@ -19,6 +19,7 @@ const Notifications = () => {
   const [notiPolicies, setNotiPolicies] = useState<any[]>([]);
   const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
   const [likedPolicyIds, setLikedPolicyIds] = useState<number[]>([]);
+  const [selectedPolicy, setSelectedPolicy] = useState<any | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,10 +97,89 @@ const Notifications = () => {
                 key={policy.id}
                 policy={getPolicyWithTime(policy)}
                 onLike={() => {}}
-                onView={() => {}}
+                onView={setSelectedPolicy}
                 onNotiCancel={handleNotiCancel}
               />
             ))}
+          </div>
+        )}
+        {/* 상세 모달 */}
+        {selectedPolicy && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-8 relative animate-fade-in">
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
+                onClick={() => setSelectedPolicy(null)}
+                aria-label="닫기"
+              >
+                ×
+              </button>
+              <div className="mb-4 flex items-center gap-2">
+                <span className={`text-xs px-2 py-1 rounded ${selectedPolicy.category ? '' : ''}`}>{selectedPolicy.category}</span>
+                {selectedPolicy.isNew && <span className="text-xs bg-red-100 text-red-600 rounded px-2 py-1">NEW</span>}
+              </div>
+              <h2 className="text-2xl font-bold mb-2">{selectedPolicy.title}</h2>
+              <div className="text-gray-600 mb-4">{selectedPolicy.summary}</div>
+              {/* 좋아요 및 신청 통계 */}
+              <div className="flex items-center justify-center gap-6 bg-gray-50 rounded-lg py-3 mb-4">
+                <div className="flex items-center gap-2 text-red-600">
+                  <Heart className="h-5 w-5" />
+                  <span className="font-semibold">{typeof selectedPolicy.likeCount === 'number' ? selectedPolicy.likeCount : (likeCountMap[selectedPolicy.id] || 0)}</span>
+                  <span className="text-sm text-gray-600">좋아요</span>
+                </div>
+                <div className="w-px h-6 bg-gray-300"></div>
+                <div className="flex items-center gap-2 text-blue-600">
+                  <Bell className="h-5 w-5" />
+                  <span className="font-semibold">{typeof selectedPolicy.applicationCount === 'number' ? selectedPolicy.applicationCount : (notiCountMap[selectedPolicy.id] || 0)}</span>
+                  <span className="text-sm text-gray-600">알림 신청</span>
+                </div>
+              </div>
+              <div className="mb-2 flex items-center text-sm text-gray-500">
+                <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                <span>{selectedPolicy.institution}</span>
+              </div>
+              {selectedPolicy.target && (
+                <div className="mb-2 flex items-center text-sm text-gray-500">
+                  <Target className="h-4 w-4 mr-2 shrink-0" />
+                  <span>대상: {selectedPolicy.target}</span>
+                </div>
+              )}
+              <div className="mb-2 flex items-center text-sm text-gray-500">
+                <Clock className="h-4 w-4 mr-2 shrink-0" />
+                {selectedPolicy.deadline === '상시모집' ? (
+                  <span className="text-green-600 font-medium">상시모집</span>
+                ) : (
+                  <span>마감: {selectedPolicy.deadline}</span>
+                )}
+              </div>
+              <div className="mb-4 flex items-center text-sm text-gray-500">
+                <div className="flex items-center">
+                  <Timer className="h-4 w-4 mr-2 shrink-0" />
+                  <span>신청 난이도: {policyTimes[selectedPolicy.id] || policyTimes[String(selectedPolicy.id)] || selectedPolicy.estimatedTime || "미설정"}</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {selectedPolicy.tags && selectedPolicy.tags.map((tag: string) => (
+                  <span key={tag} className="text-xs border rounded px-2 py-1 mr-1">#{tag}</span>
+                ))}
+              </div>
+              <div className="flex gap-2 mt-6">
+                <a
+                  href={selectedPolicy.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg py-2 text-center font-semibold transition"
+                >
+                  바로가기
+                </a>
+                <button
+                  className="flex-1 rounded-lg py-2 font-semibold transition bg-red-100 text-red-600 hover:bg-red-200"
+                  onClick={() => { handleNotiCancel(selectedPolicy.id); setSelectedPolicy(null); }}
+                >
+                  알림 취소
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </main>

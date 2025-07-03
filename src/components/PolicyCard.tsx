@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, MapPin, Clock, ExternalLink, Timer, BellOff, Users, Bell } from "lucide-react";
+import { Heart, MapPin, Clock, ExternalLink, Timer, BellOff, Users, Bell, Target } from "lucide-react";
 import { getCategoryColor } from "../lib/categoryColors.ts";
 
 interface Policy {
@@ -17,6 +17,7 @@ interface Policy {
   estimatedTime?: string;
   likeCount?: number;
   applicationCount?: number;
+  target?: string;
 }
 
 interface PolicyCardProps {
@@ -103,6 +104,12 @@ const PolicyCard = ({ policy, onLike, onView, onNoti, onNotiCancel, isNoti }: Po
             <MapPin className="h-4 w-4 mr-2 shrink-0" />
             <span className="truncate">{policy.institution}</span>
           </div>
+          {policy.target && (
+            <div className="flex items-center text-sm text-gray-500">
+              <Target className="h-4 w-4 mr-2 shrink-0" />
+              <span className="truncate">대상: {policy.target}</span>
+            </div>
+          )}
           <div className="flex items-center text-sm text-gray-500">
             <Clock className="h-4 w-4 mr-2 shrink-0" />
             {policy.deadline === '상시모집' ? (

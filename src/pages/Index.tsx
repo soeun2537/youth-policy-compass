@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, MapPin, Clock, Timer, Heart, Bell } from "lucide-react";
+import { User, MapPin, Clock, Timer, Heart, Bell, Target } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
@@ -493,6 +493,12 @@ const Index = () => {
                 <MapPin className="h-4 w-4 mr-2 shrink-0" />
                 <span>{selectedPolicy.institution}</span>
               </div>
+              {selectedPolicy.target && (
+                <div className="mb-2 flex items-center text-sm text-gray-500">
+                  <Target className="h-4 w-4 mr-2 shrink-0" />
+                  <span>대상: {selectedPolicy.target}</span>
+                </div>
+              )}
               <div className="mb-2 flex items-center text-sm text-gray-500">
                 <Clock className="h-4 w-4 mr-2 shrink-0" />
                 {selectedPolicy.deadline === '상시모집' ? (

@@ -11,7 +11,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2시간",
     likeCount: 37,
-    applicationCount: 52
+    applicationCount: 52,
+    target: "청년, 구직자"
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "30분",
     likeCount: 88,
-    applicationCount: 110
+    applicationCount: 110,
+    target: "청년, 무주택자"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1일",
     likeCount: 21,
-    applicationCount: 34
+    applicationCount: 34,
+    target: "청년 창업가"
   },
   {
     id: 4,
@@ -53,7 +56,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "3시간",
     likeCount: 15,
-    applicationCount: 19
+    applicationCount: 19,
+    target: "청년, 미취업자"
   },
   {
     id: 5,
@@ -67,7 +71,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "15분",
     likeCount: 61,
-    applicationCount: 77
+    applicationCount: 77,
+    target: "청년, 무주택자, 저소득층"
   },
   {
     id: 6,
@@ -81,7 +86,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 42,
-    applicationCount: 58
+    applicationCount: 58,
+    target: "청년, 정규직"
   },
   {
     id: 7,
@@ -95,7 +101,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2일",
     likeCount: 24,
-    applicationCount: 31
+    applicationCount: 31,
+    target: "청년 창업가"
   },
   {
     id: 8,
@@ -109,7 +116,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "20분",
     likeCount: 12,
-    applicationCount: 17
+    applicationCount: 17,
+    target: "대학생, 대학원생"
   },
   {
     id: 9,
@@ -123,7 +131,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 19,
-    applicationCount: 23
+    applicationCount: 23,
+    target: "청년 문화예술인"
   },
   {
     id: 10,
@@ -137,7 +146,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "10분",
     likeCount: 54,
-    applicationCount: 68
+    applicationCount: 68,
+    target: "청년, 무주택자"
   },
   {
     id: 11,
@@ -151,7 +161,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2일",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년 농업인"
   },
   {
     id: 12,
@@ -165,7 +176,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "3시간",
     likeCount: 18,
-    applicationCount: 25
+    applicationCount: 25,
+    target: "청년, 직업훈련 참여자"
   },
   {
     id: 13,
@@ -179,7 +191,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1일",
     likeCount: 15,
-    applicationCount: 20
+    applicationCount: 20,
+    target: "청년, 해외취업 가능자"
   },
   {
     id: 14,
@@ -193,7 +206,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "1시간",
     likeCount: 28,
-    applicationCount: 35
+    applicationCount: 35,
+    target: "청년층"
   },
   {
     id: 15,
@@ -207,7 +221,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "10분",
     likeCount: 30,
-    applicationCount: 40
+    applicationCount: 40,
+    target: "청년층"
   },
   {
     id: 16,
@@ -221,7 +236,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2일",
     likeCount: 12,
-    applicationCount: 18
+    applicationCount: 18,
+    target: "청년, 지역일자리 필요자"
   },
   {
     id: 17,
@@ -235,7 +251,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "3시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년 소상공인"
   },
   {
     id: 18,
@@ -249,7 +266,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 15,
-    applicationCount: 20
+    applicationCount: 20,
+    target: "청년층"
   },
   {
     id: 19,
@@ -263,7 +281,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "1시간",
     likeCount: 20,
-    applicationCount: 25
+    applicationCount: 25,
+    target: "청년층"
   },
   {
     id: 20,
@@ -277,7 +296,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2일",
     likeCount: 8,
-    applicationCount: 12
+    applicationCount: 12,
+    target: "청년 농업인"
   },
   {
     id: 21,
@@ -291,7 +311,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년층"
   },
   {
     id: 22,
@@ -305,7 +326,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 12,
-    applicationCount: 18
+    applicationCount: 18,
+    target: "청년층"
   },
   {
     id: 23,
@@ -319,7 +341,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년, 사회적기업 인턴"
   },
   {
     id: 24,
@@ -333,7 +356,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "2일",
     likeCount: 15,
-    applicationCount: 20
+    applicationCount: 20,
+    target: "청년층"
   },
   {
     id: 25,
@@ -347,7 +371,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년층"
   },
   {
     id: 26,
@@ -361,7 +386,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "2일",
     likeCount: 8,
-    applicationCount: 12
+    applicationCount: 12,
+    target: "청년층"
   },
   {
     id: 27,
@@ -375,7 +401,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1일",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년층"
   },
   {
     id: 28,
@@ -389,7 +416,8 @@ export const allPolicies = [
     liked: true,
     estimatedTime: "1시간",
     likeCount: 12,
-    applicationCount: 18
+    applicationCount: 18,
+    target: "청년층"
   },
   {
     id: 29,
@@ -403,7 +431,8 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년 1인가구"
   },
   {
     id: 30,
@@ -417,6 +446,7 @@ export const allPolicies = [
     liked: false,
     estimatedTime: "1시간",
     likeCount: 10,
-    applicationCount: 15
+    applicationCount: 15,
+    target: "청년층"
   }
 ]; 
