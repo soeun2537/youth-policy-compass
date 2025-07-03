@@ -24,7 +24,7 @@ const Index = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showEditTimeModal, setShowEditTimeModal] = useState(false);
   const [editingTime, setEditingTime] = useState("");
-  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "", marital: "", family: "" });
+  const [profile, setProfile] = useState({ name: "", email: "", bio: "", interest: [] as string[], birth: "", region: "", job: "", income: "", incomeAmount: "", marital: "", family: "" });
 
   const [notiPolicyIds, setNotiPolicyIds] = useState<string[]>([]);
   const [policyTimes, setPolicyTimes] = useState<{[key: string]: string}>({});
@@ -76,6 +76,7 @@ const Index = () => {
         region: parsed.region || "",
         job: parsed.job || "",
         income: parsed.income || "",
+        incomeAmount: parsed.incomeAmount || "",
         marital: parsed.marital || "",
         family: parsed.family || ""
       });
@@ -618,18 +619,83 @@ const Index = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">소득 수준</label>
+                  <label className="block text-sm font-medium mb-1">혼인 여부</label>
                   <select
-                    name="income"
-                    value={profile.income}
+                    name="marital"
+                    value={profile.marital}
                     onChange={handleProfileChange}
                     className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">선택하세요</option>
-                    <option value="low">저소득</option>
-                    <option value="middle">중간소득</option>
-                    <option value="high">고소득</option>
+                    <option value="미혼">미혼</option>
+                    <option value="기혼">기혼</option>
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">가족형태</label>
+                  <select
+                    name="family"
+                    value={profile.family}
+                    onChange={handleProfileChange}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">선택하세요</option>
+                    <option value="1인가구">1인가구</option>
+                    <option value="2인가구">2인가구</option>
+                    <option value="3인가구">3인가구</option>
+                    <option value="4인가구">4인가구</option>
+                    <option value="5인가구">5인가구</option>
+                    <option value="6인가구">6인가구</option>
+                    <option value="한부모가정">한부모가정</option>
+                    <option value="조손가정">조손가정</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">월 소득(만원)</label>
+                  <input
+                    type="number"
+                    name="incomeAmount"
+                    value={profile.incomeAmount || ''}
+                    onChange={e => {
+                      const value = e.target.value;
+                      setProfile(prev => ({ ...prev, incomeAmount: value }));
+                    }}
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="예: 250"
+                  />
+                </div>
+                {/* 중위소득 자동 계산 안내 */}
+                <div>
+                  {(() => {
+                    // 2025년 기준 중위소득(월, 만원)
+                    const medianIncome = {
+                      '1인가구': 239.2,
+                      '2인가구': 393.3,
+                      '3인가구': 502.5,
+                      '4인가구': 609.8,
+                      '5인가구': 710.8,
+                      '6인가구': 806.5
+                    };
+                    const family = profile.family;
+                    const amount = Number(profile.incomeAmount);
+                    if (!family || !amount || isNaN(amount)) return <p className="text-xs text-gray-400 mt-1">가족형태와 월 소득을 입력하면 중위소득 몇 %인지 자동 계산됩니다.</p>;
+                    const base = medianIncome[family] || medianIncome['1인가구'];
+                    const percent = Math.round((amount / base) * 100);
+                    // 주요 구간 안내
+                    let section = '';
+                    if (percent <= 50) section = '중위소득 50% 이하';
+                    else if (percent <= 85) section = '중위소득 85% 이하';
+                    else if (percent <= 100) section = '중위소득 100% 이하';
+                    else if (percent <= 120) section = '중위소득 120% 이하';
+                    else section = '중위소득 120% 초과';
+                    return (
+                      <div className="mt-1 text-sm">
+                        <span className="font-semibold text-blue-700">내 소득은 {section} ({percent}%) 입니다.</span><br/>
+                        <span className="text-xs text-gray-400">2025년 기준 중위소득: {base.toLocaleString()}만원 ({family})<br/>50%: {(base*0.5).toLocaleString()} / 85%: {(base*0.85).toLocaleString()} / 100%: {base.toLocaleString()} / 120%: {(base*1.2).toLocaleString()} 만원</span>
+                      </div>
+                    );
+                  })()}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">관심 분야</label>
@@ -666,38 +732,6 @@ const Index = () => {
                     placeholder="간단한 자기소개를 입력하세요"
                     rows={3}
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">혼인 여부</label>
-                  <select
-                    name="marital"
-                    value={profile.marital}
-                    onChange={handleProfileChange}
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">선택하세요</option>
-                    <option value="미혼">미혼</option>
-                    <option value="기혼">기혼</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">가족형태</label>
-                  <select
-                    name="family"
-                    value={profile.family}
-                    onChange={handleProfileChange}
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">선택하세요</option>
-                    <option value="1인가구">1인가구</option>
-                    <option value="2인가구">2인가구</option>
-                    <option value="3인가구">3인가구</option>
-                    <option value="4인가구">4인가구</option>
-                    <option value="5인 이상">5인 이상</option>
-                    <option value="한부모가정">한부모가정</option>
-                    <option value="조손가정">조손가정</option>
-                    <option value="기타">기타</option>
-                  </select>
                 </div>
                 <button
                   className="w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
