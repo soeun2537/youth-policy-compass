@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,7 +12,6 @@ import Diagnosis from "./pages/diagnosis";
 import Reviews from "./pages/Reviews";
 import FAQ from "./pages/FAQ";
 import Dictionary from "./pages/Dictionary";
-import Statistics from "./pages/Statistics";
 import { useState, useEffect } from "react";
 import { FavoritesContext } from "./context/FavoritesContext";
 import { allPolicies } from "./lib/allPolicies";
@@ -50,7 +50,6 @@ const App = () => {
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/dictionary" element={<Dictionary />} />
-              <Route path="/statistics" element={<Statistics />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
